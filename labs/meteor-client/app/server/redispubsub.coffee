@@ -21,10 +21,11 @@ Meteor.methods
     if authToken? and userId? and meetingId?
       publish Meteor.config.redis.channels.toBBBApps.meeting, message
       # Meteor.Users.find('meetingId':meetingId, 'userId':userId).observeChanges({
-      #   added: (id, doc) ->
-      #     # 
-      #     # callback()
-      # })
+      Meteor.Users.find().observeChanges({
+        added: (id, doc) ->
+          # 
+          callback()
+      })
       callback()
     else
       console.log "did not have enough information to send a validate_auth_token message"
