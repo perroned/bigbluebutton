@@ -18,9 +18,11 @@
         authToken = urlParts[2]?.split("=")[1]
 
         if meetingId? and userId? and authToken?
-          Meteor.call("validateAuthToken", meetingId, userId, authToken)
-          if Meteor.isClient then sendMeetingInfoToClient(meetingId, userId)
-          self.redirect('/')
+          Meteor.call("validateAuthToken", meetingId, userId, authToken, ->
+            if Meteor.isClient then sendMeetingInfoToClient(meetingId, userId)
+            self.redirect('/')
+          )
+
         else
           console.log "unable to extract from the URL some of {meetingId, userId, authToken}"
       else

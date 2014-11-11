@@ -5,7 +5,7 @@ Meteor.methods
   #
 
   # Construct and send a message to bbb-web to validate the user
-  validateAuthToken: (meetingId, userId, authToken) ->
+  validateAuthToken: (meetingId, userId, authToken, callback) ->
     console.log "\n\n sending a validate_auth_token with userid=#{userId} meetingid=#{meetingId}"
 
     message =
@@ -20,6 +20,12 @@ Meteor.methods
 
     if authToken? and userId? and meetingId?
       publish Meteor.config.redis.channels.toBBBApps.meeting, message
+      # Meteor.Users.find('meetingId':meetingId, 'userId':userId).observeChanges({
+      #   added: (id, doc) ->
+      #     # 
+      #     # callback()
+      # })
+      callback()
     else
       console.log "did not have enough information to send a validate_auth_token message"
 
@@ -99,6 +105,7 @@ class Meteor.RedisPubSub
 
       if message.header.name is "validate_auth_token_reply"
         console.log "validate_auth_token_reply--#{JSON.stringify message}"
+        Meteor.Users.insert("userid":message.payload.userid, "validated":true)
         return
 
       if message.header.name is "user_joined_message"
