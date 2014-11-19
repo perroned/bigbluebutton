@@ -5,8 +5,8 @@ Meteor.methods
   #
 
   # Construct and send a message to bbb-web to validate the user
-  validateAuthToken: (meetingId, userId, authToken, callback) ->
-    console.log "\n\n sending a validate_auth_token with userid=#{userId} meetingid=#{meetingId}"
+  validateAuthToken: (meetingId, userId, authToken) ->
+    console.log "\n\n sending a validate_auth_token with userid=#{userId}, authToken=#{authToken} meetingid=#{meetingId}"
 
     message =
       "payload":
