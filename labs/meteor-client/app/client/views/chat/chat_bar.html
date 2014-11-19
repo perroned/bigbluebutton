@@ -147,7 +147,14 @@
 
         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="height:80px; overflow-y:scroll; right:0px;">
             {{#each getAvailableLanguages}} <!-- Display each supported language as an option -->
-                <li role="presentation"><a class="languageSelector" id="{{this}}" role="menuitem" tabindex="-1" href="#">{{this}}</a></li>
+                <li role="presentation">
+                    <a class="languageSelector" id="{{this.abbreviation}}" role="menuitem" tabindex="-1" href="#">
+                        {{this.name}}
+                        {{#if isCurrentLanguage}}
+                            <i class="glyphicon glyphicon-ok"></i>
+                        {{/if}}
+                    </a>
+                </li>
             {{/each}}
         </ul>
     </div>

@@ -21,8 +21,8 @@
 # Retrieve a list of all languages supported by BBB-HTML5
 @getAvailableLanguages = ->
   [
-    "en"
-    "fr"
+    {"abbreviation": "en", "name": "English"}
+    {"abbreviation": "fr", "name": "French"}
   ]
 
 @getCurrentSlideDoc = -> # returns only one document
@@ -107,6 +107,9 @@ Handlebars.registerHelper "getUsersInMeeting", ->
 
 Handlebars.registerHelper "getWhiteboardTitle", ->
   "Whiteboard: " + getPresentationFilename()
+
+Handlebars.registerHelper "isCurrentLanguage", ->
+  this.abbreviation.toUpperCase() is window.getUserLanguage().toUpperCase()
 
 Handlebars.registerHelper "isCurrentUser", (_id) ->
   _id is BBB.getCurrentUser()?._id
