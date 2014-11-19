@@ -42,7 +42,28 @@ Meteor.startup ->
   #     Meteor.call "getMyInfo", uid, (error, result) -> #TODO should try to get rid of this?
   #       if error? then console.log "error:" + error
   #       else
-          
+
+  # --------------------------------------------------------------------------------------
+  # i18n set up
+  # default english (for now)
+  # TODO: this is something we should handle automatically in the future
+  #       when this is implemented, get language from operating system, not the web browser!!
+  # --------------------------------------------------------------------------------------
+  getUserLanguage = ->
+    # get operating system language settings
+    # if that fails, try for browser setting. otherwise return an error
+    return "fr"
+  # 
+  setInSession("showLoadingIndicator", true)
+  TAPi18n
+    .setLanguage(getUserLanguage())
+    .done( ->
+        setInSession("showLoadingIndicator", false))
+    .fail( (error_message) ->
+        # handle error
+        console.log error_message
+    )
+# --------------------------------------------------------------------------------------------------------
 
   setInSession "display_usersList", true
   setInSession "display_navbar", true
