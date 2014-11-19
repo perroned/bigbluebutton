@@ -232,6 +232,11 @@ Template.optionsFontSize.events
       setInSession "messageFontSize", selectedFontSize
     else setInSession "messageFontSize", 12
 
+Template.optionsLanguage.events
+  "click .languageSelector": (event) ->
+    setInSession "userLanguage", ((event.target.id) or null)
+    updateLanguage()
+
 Template.tabButtons.events
   'click .close': (event) -> # user closes private chat
     setInSession 'inChatWith', 'PUBLIC_CHAT'
