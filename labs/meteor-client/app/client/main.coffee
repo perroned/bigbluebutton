@@ -43,28 +43,6 @@ Meteor.startup ->
   #       if error? then console.log "error:" + error
   #       else
 
-  # --------------------------------------------------------------------------------------
-  # i18n set up
-  # default english (for now)
-  # TODO: this is something we should handle automatically in the future
-  #       when this is implemented, get language from operating system, not the web browser!!
-  # --------------------------------------------------------------------------------------
-  getUserLanguage = ->
-    # get operating system language settings
-    # if that fails, try for browser setting. otherwise return an error
-    return "fr"
-  # 
-  setInSession("showLoadingIndicator", true)
-  TAPi18n
-    .setLanguage(getUserLanguage())
-    .done( ->
-        setInSession("showLoadingIndicator", false))
-    .fail( (error_message) ->
-        # handle error
-        console.log error_message
-    )
-# --------------------------------------------------------------------------------------------------------
-
   setInSession "display_usersList", true
   setInSession "display_navbar", true
   setInSession "display_chatbar", true
@@ -76,6 +54,10 @@ Meteor.startup ->
   setInSession "dateOfBuild", Meteor.config?.dateOfBuild or "UNKNOWN DATE"
   setInSession "bbbServerVersion", Meteor.config?.bbbServerVersion or "UNKNOWN VERSION"
   setInSession "displayChatNotifications", true
+  # --------------------------------------------------------------------------------------
+  # i18n set up
+  updateLanguage(null) # arg0: (null) - Try to retrieve system language first
+# --------------------------------------------------------------------------------------------------------
 
 Template.footer.helpers
   getFooterString: ->
