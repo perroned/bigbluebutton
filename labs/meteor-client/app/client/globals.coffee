@@ -18,6 +18,13 @@
     "#" + thickness + "px" # leading "#" - to be compatible with Firefox
   thickness
 
+# Retrieve a list of all languages supported by BBB-HTML5
+@getAvailableLanguages = ->
+  [
+    "en"
+    "fr"
+  ]
+
 @getCurrentSlideDoc = -> # returns only one document
   currentPresentation = Meteor.Presentations.findOne({"presentation.current": true})
   presentationId = currentPresentation?.presentation?.id
@@ -28,6 +35,13 @@
   Meteor.Users.findOne("_id": getInSession("userId"))
 
 @getInSession = (k) -> SessionAmplify.get k
+
+# default english (for now)
+# TODO: this is something we should handle automatically in the future
+#       when this is implemented, get language from operating system, not the web browser!!
+@getUserLanguage = ->
+  lang = getInSession("userLanguage") or "en"
+  return lang
 
 @getMeetingName = ->
   meetName = getInSession("meetingName") # check if we actually have one in the session
@@ -54,6 +68,14 @@ Handlebars.registerHelper "colourToHex", (value) =>
 
 Handlebars.registerHelper 'equals', (a, b) -> # equals operator was dropped in Meteor's migration from Handlebars to Spacebars
   a is b
+
+# Global template helper to retreive array of all supported languages
+Handlebars.registerHelper "getAvailableLanguages", ->
+  window.getAvailableLanguages()
+
+# Global template helper to retreive selected language
+Handlebars.registerHelper "getUserLanguage", ->
+  window.getUserLanguage()
 
 Handlebars.registerHelper "getCurrentMeeting", ->
   Meteor.Meetings.findOne()
@@ -238,6 +260,19 @@ Handlebars.registerHelper "visibility", (section) ->
 
 @toggleWhiteBoard = ->
   setInSession "display_whiteboard", !getInSession "display_whiteboard"
+
+# Sets a new language for localization
+# If a language is passed, use that language
+# otherwise retrieve it from the system automatically
+@updateLanguage = (lang) ->
+  TAPi18n
+    .setLanguage(if lang? then lang else getUserLanguage())
+    .done( ->
+        # 
+    ).fail( (error_message) ->
+        # handle error
+        console.log error_message
+    )
 
 # Starts the entire logout procedure.
 # meeting: the meeting the user is in
