@@ -41,6 +41,7 @@
 	{{> optionsFontSize}}
 	<br/><br/>
 	{{> notificationSettings}}
+    {{> optionsLanguage}}
 </template>
 
 <template name="extraConversations">
@@ -133,6 +134,23 @@
 			<li role="presentation"><a class="fontSizeSelector" id="18" role="menuitem" tabindex="-1" href="#">18</a></li>
 		</ul>
 	</div>
+</template>
+
+<!-- Display drop down dialog with all supported languages -->
+<template name="optionsLanguage">
+    <div class="dropdown" style="float:left">
+        <span {{messageFontSize}}>Language: </span>
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+            Language ({{getUserLanguage}}) <!-- displays currently selected language -->
+            <span class="caret"></span>
+        </button>
+
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="height:80px; overflow-y:scroll; right:0px;">
+            {{#each getAvailableLanguages}} <!-- Display each supported language as an option -->
+                <li role="presentation"><a class="languageSelector" id="{{this}}" role="menuitem" tabindex="-1" href="#">{{this}}</a></li>
+            {{/each}}
+        </ul>
+    </div>
 </template>
 
 <!-- Display buttons on the chat tab, public, options, and all the private chat tabs -->
