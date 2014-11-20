@@ -57,6 +57,12 @@ Meteor.startup ->
   # --------------------------------------------------------------------------------------
   # i18n set up
   updateLanguage(null) # arg0: (null) - Try to retrieve system language first
+
+  # start a clientside-only collection keeping track of the chat tabs
+  @chatTabs = new Meteor.Collection(null)
+  # insert the basic tabs
+  @chatTabs.insert({ userId: "PUBLIC_CHAT", name: (TAPi18n.__('public',null)), gotMail: false, class: "publicChatTab"})
+  @chatTabs.insert({ userId: "OPTIONS", name: (TAPi18n.__('options',null)), gotMail: false, class: "optionsChatTab"})
 # --------------------------------------------------------------------------------------------------------
 
 Template.footer.helpers

@@ -299,9 +299,3 @@ Handlebars.registerHelper "visibility", (section) ->
   currentSlide = @getCurrentSlideDoc()
   ratio = (currentSlide?.slide.width_ratio + currentSlide?.slide.height_ratio) / 2
   thickness * 100 / ratio
-
-# start a clientside-only collection keeping track of the chat tabs
-@chatTabs = new Meteor.Collection(null)
-# insert the basic tabs
-@chatTabs.insert({ userId: "PUBLIC_CHAT", name: TAPi18n.__('public'), gotMail: false, class: "publicChatTab"})
-@chatTabs.insert({ userId: "OPTIONS", name: TAPi18n.__('options'), gotMail: false, class: "optionsChatTab"})
