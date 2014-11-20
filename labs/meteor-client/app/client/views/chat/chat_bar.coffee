@@ -54,10 +54,10 @@
   messages = (before.concat greeting).concat after
 
 @getGreeting = ->
-  TAPi18n.__('hello', null) + ". Welcome to #{window.getMeetingName()}!\r\r
-  For help on using BigBlueButton see these (short) <a href='http://www.bigbluebutton.org/videos/' target='_blank'>tutorial videos</a>.\r\r
-  To join the audio bridge click the headset icon (upper-left hand corner).  Use a headset to avoid causing background noise for others.\r\r\r
-  This server is running BigBlueButton #{getInSession 'bbbServerVersion'}.\r\r"
+  TAPi18n.__('chatGreeting', {
+    'meetingName': "#{window.getMeetingName()}",
+    'serverVersion': "#{getInSession 'bbbServerVersion'}"
+  })
 
 # Scrolls the message container to the bottom. The number of pixels to scroll down is the height of the container
 Handlebars.registerHelper "autoscroll", ->
@@ -152,10 +152,7 @@ Template.chatInput.rendered  = ->
 
 Template.extraConversations.events
 	"click .extraConversation": (event) ->
-		console.log "extra conversation"
 		user = @
-		console.log user
-		console.log "#{user.name} #{user.userId}"
 		# put this conversation in the 3rd position in the chat tabs collection (after public and options)
 		# Take all the tabs and turn into an array
 		tabArray = chatTabs.find().fetch()
@@ -252,23 +249,19 @@ Template.tabButtons.events
     chatTabs.update({userId: @userId}, {$set: {gotMail: false}})
 
   'click .optionsChatTab': (event) ->
-    console.log "options"
     setInSession "inChatWith", "OPTIONS"
     setInSession 'display_chatPane', false
 
   'click .privateChatTab': (event) ->
-    console.log "private: @ "
-    console.log @
     setInSession "inChatWith", @userId
     setInSession 'display_chatPane', true
 
   'click .publicChatTab': (event) ->
-    console.log "public"
     setInSession "inChatWith", "PUBLIC_CHAT"
     setInSession 'display_chatPane', true
 
   'click .tab': (event) ->
-    console.log "tab"
+    # 
 
 Template.tabButtons.helpers
   hasGotUnreadMailClass: (gotMail) ->

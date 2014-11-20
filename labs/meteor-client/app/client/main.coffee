@@ -62,11 +62,7 @@ Meteor.startup ->
 Template.footer.helpers
   getFooterString: ->
     # info = Meteor.call('getServerInfo')
-    dateOfBuild = getInSession 'dateOfBuild'
-    version = getInSession "bbbServerVersion"
-    copyrightYear = (new Date()).getFullYear()
-    link = "<a href='http://bigbluebutton.org/' target='_blank'>http://bigbluebutton.org</a>"
-    foot = "(c) #{copyrightYear} BigBlueButton Inc. [build #{version} - #{dateOfBuild}] - For more information visit #{link}"
+    TAPi18n.__('footerString', { 'dateOfBuild': getInSession('dateOfBuild'), 'version': getInSession("bbbServerVersion"), 'copyrightYear': ((new Date()).getFullYear()) })
 
 Template.header.events
   "click .audioFeedIcon": (event) ->
@@ -90,14 +86,13 @@ Template.header.events
     toggleMic @
 
   "click .raiseHand": (event) ->
-    console.log "navbar raise own hand from client"
     $(".tooltip").hide()
     Meteor.call('userRaiseHand', getInSession("meetingId"), getInSession("DBID"), getInSession("userId"), getInSession("DBID") )
     # "click .settingsIcon": (event) ->
     #   alert "settings"
 
   "click .signOutIcon": (event) ->
-    response = confirm('Are you sure you want to exit?')
+    response = confirm(TAPi18n.__('exitPrompt'))
     if response
       userLogout getInSession("meetingId"), getInSession("userId"), true
 

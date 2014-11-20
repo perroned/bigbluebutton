@@ -98,9 +98,9 @@
 	{{#with getCurrentMeeting}}
 		{{#if intendedForRecording}} 
 			{{#if currentlyBeingRecorded}}
-				<button class="recordingStatus recordingStatusTrue" rel="tooltip" data-placement="bottom" title="This Meeting is Being Recorded"><span class="glyphicon glyphicon-record"></span> Recording</button>
+				<button class="recordingStatus recordingStatusTrue" rel="tooltip" data-placement="bottom" title="{{_ 'recordingTooltip'}}"><span class="glyphicon glyphicon-record"></span> {{_ 'recording'}}</button>
 			{{else}}
-				<button class="recordingStatus recordingStatusFalse" rel="tooltip" data-placement="bottom" title="This Meeting is Not Currently Being Recorded"><span class="glyphicon glyphicon-record"></span></button>
+				<button class="recordingStatus recordingStatusFalse" rel="tooltip" data-placement="bottom" title="{{_ 'notRecordingTooltip'}}"><span class="glyphicon glyphicon-record"></span></button>
 			{{/if}}
 		{{/if}}
 	{{/with}}
