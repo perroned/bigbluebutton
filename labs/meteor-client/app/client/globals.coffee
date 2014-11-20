@@ -303,5 +303,5 @@ Handlebars.registerHelper "visibility", (section) ->
 # start a clientside-only collection keeping track of the chat tabs
 @chatTabs = new Meteor.Collection(null)
 # insert the basic tabs
-@chatTabs.insert({ userId: "PUBLIC_CHAT", name: "Public", gotMail: false, class: "publicChatTab"})
-@chatTabs.insert({ userId: "OPTIONS", name: "Options", gotMail: false, class: "optionsChatTab"})
+@chatTabs.insert({ userId: "PUBLIC_CHAT", name: TAPi18n.__('public'), gotMail: false, class: "publicChatTab"})
+@chatTabs.insert({ userId: "OPTIONS", name: TAPi18n.__('options'), gotMail: false, class: "optionsChatTab"})
