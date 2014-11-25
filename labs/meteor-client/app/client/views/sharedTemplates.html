@@ -6,9 +6,11 @@
 </template>
 
 <template name="makeButton">
-   <button type="submit" id="{{id}}" class="{{btn_class}} btn" {{isDisabled}} rel="{{rel}}" data-placement="{{data_placement}}" title="{{title}}">
-      <i class="glyphicon glyphicon-{{i_class}}"></i>
-   </button>
+	{{#with _ title}}
+		<button type="submit" id="{{../id}}" class="{{../btn_class}} btn" {{../isDisabled}} rel="{{../rel}}" data-placement="{{../data_placement}}" title="{{this}}">
+			<i class="glyphicon glyphicon-{{../i_class}}"></i>
+		</button>
+	{{/with}}
 </template>
 
 <template name="moduleTable">
