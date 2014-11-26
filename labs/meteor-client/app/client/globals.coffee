@@ -42,6 +42,7 @@
 @getUserLanguage = ->
   lang = getInSession("userLanguage") or "en"
   return lang
+  # "fr"
 
 @getMeetingName = ->
   meetName = getInSession("meetingName") # check if we actually have one in the session
@@ -267,13 +268,14 @@ Handlebars.registerHelper "visibility", (section) ->
 # Sets a new language for localization
 # If a language is passed, use that language
 # otherwise retrieve it from the system automatically
-@updateLanguage = (lang) ->
+@updateLanguage = (lang=getUserLanguage(), doneCallback=(->), failCallback=(->)) ->
   TAPi18n
-    .setLanguage(if lang? then lang else getUserLanguage())
+    .setLanguage(lang)
     .done( ->
-        # 
+        doneCallback()
     ).fail( (error_message) ->
         # handle error
+        failCallback()
         console.log error_message
     )
 

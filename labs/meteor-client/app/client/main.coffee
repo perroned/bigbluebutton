@@ -20,7 +20,7 @@ Meteor.startup ->
   # Load SIP libraries before the application starts
   loadLib('sip-0.6.1.js')
   loadLib('bbb_webrtc_bridge_sip.js')
-
+  # -----------------------
   @SessionAmplify = _.extend({}, Session,
     keys: _.object(_.map(amplify.store(), (value, key) ->
       [
@@ -33,6 +33,17 @@ Meteor.startup ->
       amplify.store key, value
       return
   )
+
+  # i18n set up
+  context = @
+  updateLanguage(null,
+    ->
+      # start a clientside-only collection keeping track of the chat tabs
+      context.chatTabs = new Meteor.Collection(null)
+      # insert the basic tabs
+      context.chatTabs.insert({ userId: "PUBLIC_CHAT", name: (TAPi18n.__('public',null)), gotMail: false, class: "publicChatTab"})
+      context.chatTabs.insert({ userId: "OPTIONS", name: (TAPi18n.__('options',null)), gotMail: false, class: "optionsChatTab"})
+    , null)
 
   # Meteor.autorun ->
   #   if Meteor.status().connected
@@ -54,15 +65,6 @@ Meteor.startup ->
   setInSession "dateOfBuild", Meteor.config?.dateOfBuild or "UNKNOWN DATE"
   setInSession "bbbServerVersion", Meteor.config?.bbbServerVersion or "UNKNOWN VERSION"
   setInSession "displayChatNotifications", true
-  # --------------------------------------------------------------------------------------
-  # i18n set up
-  updateLanguage(null) # arg0: (null) - Try to retrieve system language first
-
-  # start a clientside-only collection keeping track of the chat tabs
-  @chatTabs = new Meteor.Collection(null)
-  # insert the basic tabs
-  @chatTabs.insert({ userId: "PUBLIC_CHAT", name: (TAPi18n.__('public',null)), gotMail: false, class: "publicChatTab"})
-  @chatTabs.insert({ userId: "OPTIONS", name: (TAPi18n.__('options',null)), gotMail: false, class: "optionsChatTab"})
 # --------------------------------------------------------------------------------------------------------
 
 Template.footer.helpers

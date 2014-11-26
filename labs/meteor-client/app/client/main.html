@@ -10,35 +10,23 @@
 			<div class="navbarUserButtons navbarSection">
 				<!-- display/hide users list toggle -->
 				{{#if getInSession "display_usersList"}}
-					{{#with _ 'hideUsers'}}
-						{{> makeButton btn_class="navbarIconToggleActive usersListIcon navbarButton" i_class="user" rel="tooltip" data_placement="bottom" title=this}}
-					{{/with}}
+					{{> makeButton btn_class="navbarIconToggleActive usersListIcon navbarButton" i_class="user" rel="tooltip" data_placement="bottom" title='hideUsers'}}
 				{{else}}
-					{{#with _ 'showUsers'}}
-						{{> makeButton btn_class="usersListIcon navbarButton" i_class="user" rel="tooltip" data_placement="bottom" title=this}}
-					{{/with}}
+					{{> makeButton btn_class="usersListIcon navbarButton" i_class="user" rel="tooltip" data_placement="bottom" title='showUsers'}}
 				{{/if}}
 
 				<!-- display/hide whiteboard toggle -->
 				{{#if getInSession "display_whiteboard"}}
-					{{#with _ 'hideWhiteboard'}}
-						{{> makeButton btn_class="navbarIconToggleActive whiteboardIcon navbarButton" i_class="pencil" rel="tooltip" data_placement="bottom" title=this}}
-					{{/with}}
+					{{> makeButton btn_class="navbarIconToggleActive whiteboardIcon navbarButton" i_class="pencil" rel="tooltip" data_placement="bottom" title='hideWhiteboard'}}
 				{{else}}
-					{{#with _ 'showWhiteboard'}}
-						{{> makeButton btn_class="whiteboardIcon navbarButton" i_class="pencil" rel="tooltip" data_placement="bottom" title=this}}
-					{{/with}}
+					{{> makeButton btn_class="whiteboardIcon navbarButton" i_class="pencil" rel="tooltip" data_placement="bottom" title='showWhiteboard'}}
 				{{/if}}
 
 				<!-- display/hide chat bar toggle -->
 				{{#if getInSession "display_chatbar"}}
-					{{#with _ 'hideChat'}}
-						{{> makeButton btn_class="navbarIconToggleActive chatBarIcon navbarButton" i_class="comment" rel="tooltip" data_placement="bottom" title=this}}
-					{{/with}}
+					{{> makeButton btn_class="navbarIconToggleActive chatBarIcon navbarButton" i_class="comment" rel="tooltip" data_placement="bottom" title='hideChat'}}
 				{{else}}
-					{{#with _ 'showChat'}}
-						{{> makeButton btn_class="chatBarIcon navbarButton" i_class="comment" rel="tooltip" data_placement="bottom" title=this}}
-					{{/with}}
+					{{> makeButton btn_class="chatBarIcon navbarButton" i_class="comment" rel="tooltip" data_placement="bottom" title='showChat'}}
 				{{/if}}
 
 				<!-- display/hide webcam streams toggle -->
@@ -50,40 +38,26 @@
 
 				<!-- Join/hang up audio call -->
 				{{#if isCurrentUserSharingAudio}}
-					{{#with _ 'leaveAudio'}}
-						{{> makeButton btn_class="navbarIconToggleActive audioFeedIcon navbarButton" i_class="volume-off" sharingAudio=true rel="tooltip" data_placement="bottom" title=this}}
-					{{/with}}
+					{{> makeButton btn_class="navbarIconToggleActive audioFeedIcon navbarButton" i_class="volume-off" sharingAudio=true rel="tooltip" data_placement="bottom" title='leaveAudio'}}
 
 					{{#if isCurrentUserMuted}}
-						{{#with _ 'unmute'}}
-							{{> makeButton btn_class="muteIcon navbarButton" i_class="volume-off" sharingAudio=true rel="tooltip" data_placement="bottom" title=this}}
-						{{/with}}
+						{{> makeButton btn_class="muteIcon navbarButton" i_class="volume-off" sharingAudio=true rel="tooltip" data_placement="bottom" title='unmute'}}
 					{{else}}
 						{{#if isCurrentUserTalking}}
-							{{#with _ 'mute'}}
-								{{> makeButton btn_class="navbarIconToggleActive muteIcon navbarButton" i_class="volume-up" sharingAudio=true rel="tooltip" data_placement="bottom" title=this}}
-							{{/with}}
+							{{> makeButton btn_class="navbarIconToggleActive muteIcon navbarButton" i_class="volume-up" sharingAudio=true rel="tooltip" data_placement="bottom" title='mute'}}
 						{{else}}
-							{{#with _ 'mute'}}
-								{{> makeButton btn_class="navbarIconToggleActive muteIcon navbarButton" i_class="volume-down" sharingAudio=true rel="tooltip" data_placement="bottom" title=this}}
-							{{/with}}
+							{{> makeButton btn_class="navbarIconToggleActive muteIcon navbarButton" i_class="volume-down" sharingAudio=true rel="tooltip" data_placement="bottom" title='mute'}}
 						{{/if}}
 					{{/if}}
 
 				{{else}}
-					{{#with _ 'joinAudio'}}
-						{{> makeButton btn_class="audioFeedIcon navbarButton" i_class="headphones" sharingAudio=false rel="tooltip" data_placement="bottom" title=this}}
-					{{/with}}
+					{{> makeButton btn_class="audioFeedIcon navbarButton" i_class="headphones" sharingAudio=false rel="tooltip" data_placement="bottom" title='joinAudio'}}
 				{{/if}}
 
 				{{#if isCurrentUserRaisingHand}}
-					{{#with _ 'lowerYourHand'}}
-						{{> makeButton btn_class="lowerHand navbarIconToggleActive navbarButton" i_class="hand-up" rel="tooltip" data_placement="bottom" title=this}}
-					{{/with}}
+					{{> makeButton btn_class="lowerHand navbarIconToggleActive navbarButton" i_class="hand-up" rel="tooltip" data_placement="bottom" title='lowerYourHand'}}
 				{{else}}
-					{{#with _ 'raiseYourHand'}}
-						{{> makeButton btn_class="raiseHand  navbarButton" i_class="hand-up" rel="tooltip" data_placement="bottom" title=this}}
-					{{/with}}
+					{{> makeButton btn_class="raiseHand  navbarButton" i_class="hand-up" rel="tooltip" data_placement="bottom" title='raiseYourHand'}}
 				{{/if}}
 
 				{{> recordingStatus}}
@@ -92,16 +66,12 @@
 			<div class="navbarSettingsButtons navbarSection">
 				<!-- {{> makeButton id="userId" btn_class="settingsIcon navbarButton" i_class="cog" rel="tooltip" data_placement="bottom" title="Settings"}} -->
 				<!-- {{> makeButton btn_class="hideNavbarIcon navbarButton" i_class="chevron-up" rel="tooltip" data_placement="bottom" title="Hide Navbar"}} -->
-				{{#with _ 'logout'}}
-					{{> makeButton btn_class="signOutIcon navbarButton" i_class="log-out" rel="tooltip" data_placement="bottom" title=this}}
-				{{/with}}
+				{{> makeButton btn_class="signOutIcon navbarButton" i_class="log-out" rel="tooltip" data_placement="bottom" title='logout'}}
 			</div>
 		</div>
 		<div class="navbarFiller"></div>
 	{{else}}
-		{{#with _ 'showNavbar'}}
-			{{> makeButton id="navbarMinimizedButton" btn_class="hideNavbarIcon navbarMinimizedButtonSmall" i_class="chevron-down" rel="tooltip" data_placement="bottom" title=this}}
-		{{/with}}
+		{{> makeButton id="navbarMinimizedButton" btn_class="hideNavbarIcon navbarMinimizedButtonSmall" i_class="chevron-down" rel="tooltip" data_placement="bottom" title='showNavbar'}}
 	{{/if}}
 </template>
 

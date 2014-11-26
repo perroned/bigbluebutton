@@ -6,8 +6,8 @@
 </template>
 
 <template name="makeButton">
-	{{#with _ title}}
-		<button type="submit" id="{{../id}}" class="{{../btn_class}} btn" {{../isDisabled}} rel="{{../rel}}" data-placement="{{../data_placement}}" title="{{this}}">
+	{{#with i18n title}}
+		<button type="submit" id="{{../id}}" class="{{../btn_class}} btn" {{../isDisabled}} rel="{{../rel}}" data-placement="{{../data_placement}}" title="{{this}}" data-original-title="{{this}}">
 			<i class="glyphicon glyphicon-{{../i_class}}"></i>
 		</button>
 	{{/with}}
