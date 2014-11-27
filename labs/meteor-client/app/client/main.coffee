@@ -102,7 +102,7 @@ Template.header.events
   "click .signOutIcon": (event) ->
     response = confirm(TAPi18n.__('exitPrompt'))
     if response
-      userLogout getInSession("meetingId"), getInSession("userId"), true
+      userLogout getInSession("meetingId"), getInSession("userId")
 
   "click .usersListIcon": (event) ->
     $(".tooltip").hide()
