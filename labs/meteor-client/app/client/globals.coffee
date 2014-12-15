@@ -32,7 +32,7 @@
 
 # retrieve account for selected user
 @getCurrentUserFromSession = ->
-  Meteor.Users.findOne("_id": getInSession("userId"))
+  Meteor.Users.findOne(userId: getInSession("userId"))
 
 @getInSession = (k) -> SessionAmplify.get k
 
@@ -45,20 +45,13 @@
   # "fr"
 
 @getMeetingName = ->
-  meetName = getInSession("meetingName") # check if we actually have one in the session
-  if meetName? then meetName # great return it, no database query
-  else # we need it from the database
-    meet = Meteor.Meetings.findOne({})
-    if meet?.meetingName
-      setInSession "meetingName", meet?.meetingName # store in session for fast access next time
-      meet?.meetingName
-    else "your meeting"
+  return Meteor.Meetings.findOne()?.meetingName or "your meeting"
 
 @getTime = -> # returns epoch in ms
   (new Date).valueOf()
 
 @getTimeOfJoining = ->
-  Meteor.Users.findOne(_id: getInSession "DBID")?.user?.time_of_joining
+  Meteor.Users.findOne(userId: getInSession "userId")?.user?.time_of_joining
 
 @getPresentationFilename = ->
   currentPresentation = Meteor.Presentations.findOne({"presentation.current": true})
@@ -109,11 +102,8 @@ Handlebars.registerHelper "getUsersInMeeting", ->
 Handlebars.registerHelper "getWhiteboardTitle", ->
   "Whiteboard: " + getPresentationFilename()
 
-Handlebars.registerHelper "isCurrentLanguage", ->
-  this.abbreviation.toUpperCase() is window.getUserLanguage().toUpperCase()
-
-Handlebars.registerHelper "isCurrentUser", (_id) ->
-  _id is BBB.getCurrentUser()?._id
+Handlebars.registerHelper "isCurrentUser", (userId) ->
+  userId is BBB.getCurrentUser()?.userId
 
 Handlebars.registerHelper "isCurrentUserMuted", ->
   BBB.amIMuted()
@@ -134,21 +124,21 @@ Handlebars.registerHelper "isCurrentUserTalking", ->
 Handlebars.registerHelper "isDisconnected", ->
   return !Meteor.status().connected
 
-Handlebars.registerHelper "isUserListenOnly", (_id) ->
-  user = Meteor.Users.findOne({_id:_id})
+Handlebars.registerHelper "isUserListenOnly", (userId) ->
+  user = Meteor.Users.findOne({userId:userId})
   return user?.user?.listenOnly
 
-Handlebars.registerHelper "isUserMuted", (_id) ->
-  BBB.isUserMuted(_id)
+Handlebars.registerHelper "isUserMuted", (userId) ->
+  BBB.isUserMuted(userId)
 
-Handlebars.registerHelper "isUserSharingAudio", (_id) ->
-  BBB.isUserSharingAudio(_id)
+Handlebars.registerHelper "isUserSharingAudio", (userId) ->
+  BBB.isUserSharingAudio(userId)
 
-Handlebars.registerHelper "isUserSharingVideo", (_id) ->
-  BBB.isUserSharingWebcam(_id)
+Handlebars.registerHelper "isUserSharingVideo", (userId) ->
+  BBB.isUserSharingWebcam(userId)
 
-Handlebars.registerHelper "isUserTalking", (_id) ->
-  BBB.isUserTalking(_id)
+Handlebars.registerHelper "isUserTalking", (userId) ->
+  BBB.isUserTalking(userId)
 
 Handlebars.registerHelper "meetingIsRecording", ->
   Meteor.Meetings.findOne()?.recorded # Should only ever have one meeting, so we dont need any filter and can trust result #1
@@ -168,16 +158,14 @@ Handlebars.registerHelper "pointerLocation", ->
 Handlebars.registerHelper "safeName", (str) ->
   safeString(str)
 
-Handlebars.registerHelper "setInSession", (k, v) -> SessionAmplify.set k, v
-
 Handlebars.registerHelper "visibility", (section) ->
   if getInSession "display_#{section}"
-    style: 'display:block'
+    style: 'display:block;'
   else
-    style: 'display:none'
+    style: 'display:none;'
 
 @isSharingAudio = ->
-  return Meteor.Users.findOne({_id: getInSession "DBID"})?.user?.voiceUser?.joined
+  return Meteor.Users.findOne({userId: getInSession "userId"})?.user?.voiceUser?.joined
 
 # transform plain text links into HTML tags compatible with Flash client
 @linkify = (str) ->
@@ -187,8 +175,8 @@ Handlebars.registerHelper "visibility", (section) ->
   str = str.replace www, "$1<a href='event:http://$2'><u>$2</u></a>"
 
 # check the chat history of the user and add tabs for the private chats
-@populateChatTabs = ->
-  mydbid = getInSession "DBID"
+@populateChatTabs = (msg) ->
+  myUserId = getInSession "userId"
   users = Meteor.Users.find().fetch()
 
   # assuming that I only have access only to private messages where I am the sender or the recipient
@@ -196,32 +184,29 @@ Handlebars.registerHelper "visibility", (section) ->
 
   uniqueArray = []
   for chat in myPrivateChats
-    if chat.message.to_userid is mydbid
+    if chat.message.to_userid is myUserId
       uniqueArray.push({userId: chat.message.from_userid, username: chat.message.from_username})
-    if chat.message.from_userid is mydbid
+    if chat.message.from_userid is myUserId
       uniqueArray.push({userId: chat.message.to_userid, username: chat.message.to_username})
 
   #keep unique entries only
   uniqueArray = uniqueArray.filter((itm, i, a) ->
       i is a.indexOf(itm)
     )
+
+  if msg.message.to_userid is myUserId
+    new_msg_userid = msg.message.from_userid
+  if msg.message.from_userid is myUserId
+    new_msg_userid = msg.message.to_userid
+
   #insert the unique entries in the collection
   for u in uniqueArray
-    unless chatTabs.findOne({userId: u.userId})?
-      chatTabs.insert({ userId: u.userId, name: u.username, gotMail: false, class: "privateChatTab"})
+    tabs = getInSession('chatTabs')
+    if tabs.filter((tab) -> tab.userId == u.userId).length is 0 and u.userId is new_msg_userid
+      tabs.push {userId: u.userId, name: u.username, gotMail: false, class: 'privateChatTab'}
+      setInSession 'chatTabs', tabs
 
-@setInSession = (k, v) ->
-  if k is "DBID" then  console.log "setInSession #{k}, #{v}"
-  SessionAmplify.set k, v
-
-@sendMeetingInfoToClient = (meetingId, userId) ->
-    setInSession("userId", userId)
-    setInSession("meetingId", meetingId)
-    setInSession("currentChatId", meetingId) #TODO check if this is needed
-    setInSession("meetingName", null)
-    setInSession("userName", null)
-
-@setInSession = (k, v) -> SessionAmplify.set k, v 
+@setInSession = (k, v) -> SessionAmplify.set k, v
 
 @safeString = (str) ->
   if typeof str is 'string'
@@ -235,9 +220,9 @@ Handlebars.registerHelper "visibility", (section) ->
   setInSession "display_chatbar", !getInSession "display_chatbar"
 
 @toggleMic = (event) ->
-  u = Meteor.Users.findOne({_id:getInSession("DBID")})
+  u = Meteor.Users.findOne({userId:getInSession("userId")})
   if u?
-    Meteor.call('publishMuteRequest', getInSession("meetingId"),u._id, getInSession("userId"), u._id, not u.user.voiceUser.muted)
+    Meteor.call('muteUser', getInSession("meetingId"), u.userId, getInSession("userId"), getInSession("authToken"), not u.user.voiceUser.muted)
 
 @toggleNavbar = ->
   setInSession "display_navbar", !getInSession "display_navbar"
@@ -248,18 +233,14 @@ Handlebars.registerHelper "visibility", (section) ->
 
 @toggleVoiceCall = (event) ->
   if isSharingAudio()
-    # hangup and inform bbb-apps
-    Meteor.call("userStopAudio", getInSession("meetingId"), getInSession("userId"), getInSession("DBID"), getInSession("userId"), getInSession("DBID"))
     hangupCallback = ->
       console.log "left voice conference"
-
-    BBB.leaveVoiceConference hangupCallback
+    BBB.leaveVoiceConference hangupCallback #TODO should we apply role permissions to this action?
   else
     # create voice call params
     joinCallback = (message) ->
       console.log "started webrtc_call"
-
-    BBB.joinVoiceConference joinCallback # make the call
+    BBB.joinVoiceConference joinCallback # make the call #TODO should we apply role permissions to this action?
   return false
 
 @toggleWhiteBoard = ->
@@ -283,21 +264,72 @@ Handlebars.registerHelper "visibility", (section) ->
 # meeting: the meeting the user is in
 # the user's userId
 @userLogout = (meeting, user) ->
-  Meteor.call("userLogout", meeting, user)
+  Meteor.call("userLogout", meeting, user, getInSession("authToken"))
+  console.log "logging out #{Meteor.config.app.logOutUrl}"
+  document.location = Meteor.config.app.logOutUrl # navigate to logout
 
-  # Clear the local user session and redirect them away
-  setInSession("userId", null)
-  setInSession("meetingId", null)
-  setInSession("currentChatId", null)
-  setInSession("meetingName", null)
-  setInSession("bbbServerVersion", null)
-  setInSession("userName", null)
-  setInSession "display_navbar", false # needed to hide navbar when the layout template renders
+# Clear the local user session
+@clearSessionVar = (callback) ->
+  delete SessionAmplify.keys['authToken']
+  delete SessionAmplify.keys['bbbServerVersion']
+  delete SessionAmplify.keys['chatTabs']
+  delete SessionAmplify.keys['dateOfBuild']
+  delete SessionAmplify.keys['displayChatNotifications']
+  delete SessionAmplify.keys['display_chatPane']
+  delete SessionAmplify.keys['display_chatbar']
+  delete SessionAmplify.keys['display_navbar']
+  delete SessionAmplify.keys['display_usersList']
+  delete SessionAmplify.keys['display_whiteboard']
+  delete SessionAmplify.keys['inChatWith']
+  delete SessionAmplify.keys['joinedAt']
+  delete SessionAmplify.keys['meetingId']
+  delete SessionAmplify.keys['messageFontSize']
+  delete SessionAmplify.keys['tabsRenderedTime']
+  delete SessionAmplify.keys['userId']
+  delete SessionAmplify.keys['userName']
+  console.log "clearSessionVar"
+  callback()
 
-  Router.go('logout') # navigate to logout
+# assign the default values for the Session vars
+@setDefaultSettings = ->
+  console.log "in setDefaultSettings"
+  setInSession "display_usersList", true
+  setInSession "display_navbar", true
+  setInSession "display_chatbar", true
+  setInSession "display_whiteboard", true
+  setInSession "display_chatPane", true
+  setInSession "joinedAt", getTime()
+  setInSession "inChatWith", 'PUBLIC_CHAT'
+  setInSession "messageFontSize", 12
+  setInSession "dateOfBuild", Meteor.config?.dateOfBuild or "UNKNOWN DATE"
+  setInSession "bbbServerVersion", Meteor.config?.bbbServerVersion or "UNKNOWN VERSION"
+  setInSession "displayChatNotifications", true
+
+@onLoadComplete = ->
+  setDefaultSettings()
+  myDBID = BBB.getMyDBID()
+
+  Meteor.Users.find().observeChanges({
+  removed: (id) ->
+    console.log "removed user #{id}  #{getInSession('userId')}   #{myDBID}"
+    if id is myDBID
+      document.location = Meteor.config.app.logOutUrl
+  })
 
 # applies zooming to the stroke thickness
 @zoomStroke = (thickness) ->
   currentSlide = @getCurrentSlideDoc()
   ratio = (currentSlide?.slide.width_ratio + currentSlide?.slide.height_ratio) / 2
   thickness * 100 / ratio
+
+# TODO TEMPORARY!!
+# must not have this in production
+@whoami = ->
+  console.log JSON.stringify {
+    username: getInSession "userName"
+    userid: getInSession "userId"
+    authToken: getInSession "authToken"
+}
+
+@listSessionVars = ->
+  console.log SessionAmplify.keys
