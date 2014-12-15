@@ -45,7 +45,7 @@
   # "fr"
 
 @getMeetingName = ->
-  return Meteor.Meetings.findOne()?.meetingName or "your meeting"
+  return Meteor.Meetings.findOne()?.meetingName or "BigBlueButton"
 
 @getTime = -> # returns epoch in ms
   (new Date).valueOf()
@@ -100,7 +100,7 @@ Handlebars.registerHelper "getUsersInMeeting", ->
   Meteor.Users.find({})
 
 Handlebars.registerHelper "getWhiteboardTitle", ->
-  "Whiteboard: " + getPresentationFilename()
+  "Whiteboard: " + (getPresentationFilename() or "Loading...")
 
 Handlebars.registerHelper "isCurrentUser", (userId) ->
   userId is BBB.getCurrentUser()?.userId
@@ -232,7 +232,7 @@ Handlebars.registerHelper "visibility", (section) ->
   setInSession "display_usersList", !getInSession "display_usersList"
 
 @toggleVoiceCall = (event) ->
-  if isSharingAudio()
+  if BBB.amISharingAudio()
     hangupCallback = ->
       console.log "left voice conference"
     BBB.leaveVoiceConference hangupCallback #TODO should we apply role permissions to this action?
