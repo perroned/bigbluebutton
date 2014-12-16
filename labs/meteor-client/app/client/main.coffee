@@ -81,8 +81,8 @@ Meteor.startup ->
 
 Template.footer.helpers
   getFooterString: ->
-    # info = Meteor.call('getServerInfo')
-    TAPi18n.__('footerString', { 'dateOfBuild': getInSession('dateOfBuild'), 'version': getInSession("bbbServerVersion"), 'copyrightYear': ((new Date()).getFullYear()) })
+    info = getBuildInformation()
+    foot = TAPi18n.__('footerString', { 'dateOfBuild': info.dateOfBuild, 'version': info.bbbServerVersion, 'copyrightYear': info.copyrightYear })
 
 Template.header.events
   "click .audioFeedIcon": (event) ->

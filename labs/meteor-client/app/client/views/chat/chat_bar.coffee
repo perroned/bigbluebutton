@@ -60,10 +60,21 @@
   messages = (before.concat greeting).concat after
 
 @getGreeting = ->
-  TAPi18n.__('chatGreeting', {
-    'meetingName': "#{window.getMeetingName()}",
-    'serverVersion': "#{getInSession 'bbbServerVersion'}"
+  info = getBuildInformation()
+  greetingMessage = TAPi18n.__('chatGreeting', {
+    'meetingName': "#{}",
+    'message': info.defaultWelcomeMessage
   })
+  # find a way to configure this in local translation unit
+  greetingMessage = greetingMessage.replace /%%CONFNAME%%/, (Meteor.Meetings.findOne()?.meetingName or "BigBlueButton")
+
+  chatGreetingFooter = TAPi18n.__('chatGreetingFooter', { 
+    'message': info.defaultWelcomeMessageFooter,
+    'bbbServerVersion': info.bbbServerVersion
+  })
+
+  greetingMessage += chatGreetingFooter
+  greetingMessage
 
 # Scrolls the message container to the bottom. The number of pixels to scroll down is the height of the container
 Handlebars.registerHelper "autoscroll", ->
@@ -157,11 +168,15 @@ Template.chatInput.events
     sendMessage()
 
   'keypress #newMessageInput': (event) -> # user pressed a button inside the chatbox
-    if event.shiftKey and event.which is 13
+    key = (if event.charCode then event.charCode else (if event.keyCode then event.keyCode else 0))
+
+    if event.shiftKey and (key is 13)
+      event.preventDefault()
       $("#newMessageInput").append("\r") # Change newline character
       return
 
-    if event.which is 13 # Check for pressing enter to submit message
+    if key is 13 # Check for pressing enter to submit message
+      event.preventDefault()
       sendMessage()
       $('#newMessageInput').val("")
       return false

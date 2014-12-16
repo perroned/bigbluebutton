@@ -1,5 +1,6 @@
 { 
     "chatGreeting" : "French",
+    "chatGreetingFooter": "French",
     "chatMessageFontSize" : "French",
     "chatOptions" : "French",
     "exitPrompt" : "French",

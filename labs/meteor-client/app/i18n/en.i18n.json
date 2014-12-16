@@ -1,5 +1,6 @@
 { 
-	"chatGreeting" : "Welcome to __meetingName__!\r\rFor help on using BigBlueButton see these (short) <a href='http://www.bigbluebutton.org/videos/' target='_blank'>tutorial videos</a>.\r\rTo join the audio bridge click the headset icon (upper-left hand corner).  Use a headset to avoid causing background noise for others.\r\r\rThis server is running BigBlueButton __serverVersion__.\r\r",
+	"chatGreeting" : "__message__",
+	"chatGreetingFooter": "__message__",
 	"chatMessageFontSize" : "Chat Message Font Size",
 	"chatOptions" : "Chat Options",
 	"exitPrompt" : "Are you sure you want to exit?",
