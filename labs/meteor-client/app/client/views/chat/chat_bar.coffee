@@ -131,7 +131,7 @@ Template.chatbar.helpers
       return Meteor.Users.findOne({userId: getInSession('inChatWith')})?
 
 # When chatbar gets rendered, scroll to the bottom
-Template.chatbar.rendered = ->
+Template.message.rendered = ->
   detectUnreadChat()
   $('#chatbody').scrollTop($('#chatbody')[0]?.scrollHeight)
   false
