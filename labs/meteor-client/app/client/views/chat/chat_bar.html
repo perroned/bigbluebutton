@@ -1,29 +1,29 @@
 <template name="chatbar">
     <div id="{{id}}" {{visibility name}} class="component">
-        <div id="chatbar-contents">
-            <h3 class="title gradientBar">
+
+        <h3 class="title gradientBar">
             <span class="glyphicon glyphicon-comment"></span>
             {{title}}
             {{> extraConversations}}
-            </h3>
-            {{>tabButtons}} <!-- Display public/options tabs, and private chat tabs -->
-            {{#if getInSession "display_chatPane"}}
-                <div id="chatbody">
-                    <ul class="chat">
-                        {{#each getCombinedMessagesForChat}}
-                            {{#if message}}
-                                <li {{messageFontSize}}>{{> message}}</li>
-                            {{/if}}
-                        {{/each}}
-                        <bottomEntry></bottomEntry> <!-- Intentionally blank, fixes issue of last message being cut off while scrolling -->
-                        {{#unless userExists}}<li>The user has left</li>{{/unless}}
-                    </ul>
-                </div>
-                {{#if userExists}}<div class="panel-footer">{{> chatInput}}</div>{{/if}}
-            {{else}}
-                {{> optionsBar}}
-            {{/if}}
-        </div>
+        </h3>
+
+        {{>tabButtons}} {{! Display public/options tabs, and private chat tabs }}
+
+        {{#if getInSession "display_chatPane"}}
+
+            <ul class="chat">
+                {{#each getCombinedMessagesForChat}}
+                    {{#if message}} <li {{messageFontSize}}>{{> message}}</li> {{/if}}
+                {{/each}}
+                <bottomEntry></bottomEntry> {{! Intentionally blank, fixes issue of last message being cut off while scrolling }}
+                {{#unless userExists}}<li>The user has left</li>{{/unless}}
+            </ul>
+
+            {{#if userExists}}<div class="panel-footer">{{> chatInput}}</div>{{/if}}
+        {{else}}
+            {{> optionsBar}}
+        {{/if}}
+
     </div>
 </template>
 
