@@ -79,6 +79,7 @@
     {{#if thereArePeopletoChatWith}} <!-- There are people we can chat with, display the user list -->
       <p>Select a person to chat with privately:</p>
       <select id="privateChatSelector" title="Select a participant to open a private chat" class="private-chat-user-box " >
+        <option selected="selected">Users...</option>
         {{#each getUsersInMeeting}}
           {{#unless isCurrentUser userId}}
             <option value={{userId}} >{{user.name}}</option>
