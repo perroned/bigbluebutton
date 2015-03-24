@@ -295,7 +295,7 @@ Handlebars.registerHelper "visibility", (section) ->
 @userLogout = (meeting, user) ->
   Meteor.call("userLogout", meeting, user, getInSession("authToken"))
   console.log "logging out"
-  clearSessionVar(document.location = getInSession 'logoutURL') # navigate to logout
+  clearSessionVar(-> document.location = getInSession 'logoutURL') # navigate to logout
 
 # Clear the local user session
 @clearSessionVar = (callback) ->
@@ -315,6 +315,7 @@ Handlebars.registerHelper "visibility", (section) ->
   amplify.store('tabsRenderedTime', null)
   amplify.store('userId', null)
   amplify.store('userName', null)
+  
   if callback?
     callback()
 
@@ -344,7 +345,8 @@ Handlebars.registerHelper "visibility", (section) ->
   Meteor.Users.find().observe({
   removed: (oldDocument) ->
     if oldDocument.userId is getInSession 'userId'
-      document.location = getInSession 'logoutURL'
+      setInSession('chatTabs', null)
+      clearSessionVar(-> document.location = getInSession 'logoutURL') # navigate to logout
   })
 
 # applies zooming to the stroke thickness
