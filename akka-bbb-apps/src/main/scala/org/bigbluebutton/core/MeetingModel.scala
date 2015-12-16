@@ -6,13 +6,14 @@ import java.util.concurrent.TimeUnit
 case object StopMeetingActor
 case class MeetingProperties(meetingID: String, externalMeetingID: String, meetingName: String, recorded: Boolean,
   voiceBridge: String, duration: Long, autoStartRecording: Boolean, allowStartStopRecording: Boolean,
-  moderatorPass: String, viewerPass: String, createTime: Long, createDate: String)
+  moderatorPass: String, viewerPass: String, createTime: Long, createDate: String, red5DeskShareIP: String, red5DeskShareApp: String)
 
 class MeetingModel {
   private var audioSettingsInited = false
   private var permissionsInited = false
   private var permissions = new Permissions()
   private var recording = false;
+  private var broadcastingRTMP = false
   private var muted = false;
   private var meetingEnded = false
   private var meetingMuted = false
@@ -22,8 +23,19 @@ class MeetingModel {
   private var lastWebUserLeftOnTimestamp: Long = 0
 
   private var voiceRecordingFilename: String = ""
+  private var rtmpBroadcastingUrl: String = ""
+  private var deskShareStarted = false
 
   val startedOn = timeNowInMinutes;
+
+  def getDeskShareStarted(): Boolean = {
+    return deskShareStarted
+  }
+
+  def setDeskShareStarted(b: Boolean) {
+    deskShareStarted = b
+    println("---deskshare status changed to:" + b)
+  }
 
   def muteMeeting() {
     meetingMuted = true
@@ -49,6 +61,18 @@ class MeetingModel {
     recording
   }
 
+  def broadcastingRTMPStarted() {
+    broadcastingRTMP = true
+  }
+
+  def isBroadcastingRTMP(): Boolean = {
+    broadcastingRTMP
+  }
+
+  def broadcastingRTMPStopped() {
+    broadcastingRTMP = false
+  }
+
   def lastWebUserLeft() {
     lastWebUserLeftOnTimestamp = timeNowInMinutes
   }
@@ -67,6 +91,14 @@ class MeetingModel {
 
   def getVoiceRecordingFilename(): String = {
     voiceRecordingFilename
+  }
+
+  def setRTMPBroadcastingUrl(path: String) {
+    rtmpBroadcastingUrl = path
+  }
+
+  def getRTMPBroadcastingUrl(): String = {
+    rtmpBroadcastingUrl
   }
 
   def permisionsInitialized(): Boolean = {

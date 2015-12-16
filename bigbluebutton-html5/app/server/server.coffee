@@ -492,6 +492,14 @@ Meteor.startup ->
           clearPollCollection meetingId, poll_id
         callback()
 
+      else if eventName is "desk_share_notify_viewers_rtmp"
+        thisMeetingId = meetingId or message.payload.meetingid #TODO see why not standard meeting_id
+        deskShareInfo =
+          vw: message.payload.vw
+          vh: message.payload.vh
+          broadcasting: message.payload.broadcasting
+        handleDeskShareChange(thisMeetingId, deskShareInfo)
+        callback()
 
       else # keep moving in the queue
         unless eventName in notLoggedEventTypes
