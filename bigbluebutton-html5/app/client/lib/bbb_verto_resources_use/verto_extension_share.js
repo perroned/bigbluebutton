@@ -97,6 +97,7 @@ this.doshare = function(on, callback, videoTag) {
 				window.listenOnly = false;
 				window.watchOnly = false;
 				window.joinAudio = true;
+				extension = Meteor.Meetings.findOne().voiceConf;
 
 				share_call = verto.newCall({
 					destination_number: extension + "-screen",
