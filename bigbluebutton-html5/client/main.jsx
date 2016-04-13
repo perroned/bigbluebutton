@@ -1,5 +1,6 @@
 import {UserListContainer} from './imports/react/components/UserList/UserListContainer.jsx';
-
+import Modal from 'react-modal';
+import App from './views/modals/Modal.jsx';
 let loadLib;
 
 // Helper to load javascript libraries from the BBB server
@@ -106,6 +107,10 @@ Template.menu.events({
 
 Template.main.rendered = function () {
   ReactDOM.render(<UserListContainer />, document.getElementById('user-contents'));
+  
+  var appElement = document.getElementById('example');
+  Modal.setAppElement(appElement);
+  ReactDOM.render(<App/>, appElement);
 
   let lastOrientationWasLandscape;
   $('#dialog').dialog({
