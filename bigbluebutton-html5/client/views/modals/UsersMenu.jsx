@@ -8,7 +8,7 @@ export default class UsersMenu extends BaseMenu {
     super(props);
   }
 
-  render() {
+  getContent() {
     return (
       <div>inside users menu</div>
     );

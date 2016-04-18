@@ -8,7 +8,7 @@ export default class ApplicationMenu extends BaseMenu {
     super(props);
   }
 
-  render() {
+  getContent() {
     return (
       <div>inside application menu</div>
     );

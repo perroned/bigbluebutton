@@ -8,7 +8,7 @@ export default class AudioMenu extends BaseMenu {
     super(props);
   }
 
-  render() {
+  getContent() {
     return (
       <div>inside audio menu</div>
     );

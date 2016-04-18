@@ -8,7 +8,7 @@ export default class VideoMenu extends BaseMenu {
     super(props);
   }
 
-  render() {
+  getContent() {
     return (
       <div>inside video menu</div>
     );

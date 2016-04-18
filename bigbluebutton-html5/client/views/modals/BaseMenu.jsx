@@ -5,12 +5,18 @@ import {Button} from '../../imports/react/components/Button.jsx';
 export default class BaseMenu extends React.Component {
   constructor(props) {
     super(props);
-    this.setState = {
-      title: props.title || ""
-    }
+  }
+
+  getContent() {
+    return(<div>parent content</div>);
   }
 
   render() {
-
+    return (
+      <div>
+        <h3>{this.props.title}</h3>
+        {this.getContent()}
+      </div>
+    );
   }
 };

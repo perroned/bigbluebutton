@@ -7,6 +7,7 @@ import VideoMenu from './VideoMenu.jsx';
 import ApplicationMenu from './ApplicationMenu.jsx';
 import UsersMenu from './UsersMenu.jsx';
 import SessionMenu from './SessionMenu.jsx';
+import classNames from 'classnames';
 
 export default class SettingsModal extends BaseModal {
   constructor(props) {
@@ -16,11 +17,11 @@ export default class SettingsModal extends BaseModal {
 
   componentDidMount() {
     this.setState({activeSubmenu: 0});
-    this.submenus.push(React.createElement(AudioMenu, {title: "Audio"}));
-    this.submenus.push(React.createElement(VideoMenu, {title: "Video"}));
-    this.submenus.push(React.createElement(ApplicationMenu, {title: "App"}));
-    this.submenus.push(React.createElement(UsersMenu, {title: "Participants"}));
-    this.submenus.push(React.createElement(SessionMenu, {title: "Session"}));
+    this.submenus.push(<AudioMenu title="Audio" prependIconName="ion-" icon="ios-mic-outline"/>);
+    this.submenus.push(<VideoMenu title="Video" prependIconName="ion-" icon="ios-videocam-outline"/>);
+    this.submenus.push(<ApplicationMenu title="App" prependIconName="ion-" icon="ios-folder-outline"/>);
+    this.submenus.push(<UsersMenu title="Participants" prependIconName="ion-" icon="person"/>);
+    this.submenus.push(<SessionMenu title="Session" prependIconName="ion-" icon="android-exit"/>);
   }
 
   openModal() {
@@ -39,18 +40,25 @@ export default class SettingsModal extends BaseModal {
     super.handleModalCloseRequest();
   }
 
+  clickSubmenu(i) {
+    this.setState({activeSubmenu: i});
+  }
+
   getContent() {
-    let activeRow = { borderRight: '5px solid blue' };
     return(
       <div>
-        <div style={{float: 'left', width: '30%', borderRight: '2px solid grey'}}>
-          <ul>
+        <div className="settingsMenuLeft">
+          <ul style={{listStyleType: 'none'}}>
             {this.submenus.map((value, index) => (
-              <li key={index} style={index == this.state.activeSubmenu ? activeRow : null}>{value.props.title}</li>
+              <li key={index} onClick={this.clickSubmenu.bind(this, index)}
+                className={classNames('settingsSubmenuItem', {'activeRow': index == this.state.activeSubmenu})}>
+                <Icon key={index} prependIconName={value.props.prependIconName} iconName={value.props.icon} title={value.props.title}/>
+                  <span>{value.props.title}</span>
+              </li>  
             ))}
           </ul>
         </div>
-        <div style={{float: 'right', width: '70%'}}>
+        <div className="settingsMenuRight">
           {this.submenus[this.state.activeSubmenu === undefined ? 0 : this.state.activeSubmenu]}
         </div>
       </div>

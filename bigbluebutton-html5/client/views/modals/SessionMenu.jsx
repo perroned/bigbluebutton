@@ -8,7 +8,7 @@ export default class SessionMenu extends BaseMenu {
     super(props);
   }
 
-  render() {
+  getContent() {
     return (
       <div>inside session menu</div>
     );
