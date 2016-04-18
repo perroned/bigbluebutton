@@ -16,11 +16,11 @@ export default class SettingsModal extends BaseModal {
 
   componentDidMount() {
     this.setState({activeSubmenu: 0});
-    this.submenus.push(React.createElement(AudioMenu, {title: "Audio Menu"}));
-    this.submenus.push(React.createElement(VideoMenu, {title: "Video Menu"}));
-    this.submenus.push(React.createElement(ApplicationMenu, {title: "Audio Menu"}));
-    this.submenus.push(React.createElement(UsersMenu, {title: "Audio Menu"}));
-    this.submenus.push(React.createElement(SessionMenu, {title: "Audio Menu"}));
+    this.submenus.push(React.createElement(AudioMenu, {title: "Audio"}));
+    this.submenus.push(React.createElement(VideoMenu, {title: "Video"}));
+    this.submenus.push(React.createElement(ApplicationMenu, {title: "App"}));
+    this.submenus.push(React.createElement(UsersMenu, {title: "Participants"}));
+    this.submenus.push(React.createElement(SessionMenu, {title: "Session"}));
   }
 
   openModal() {
