@@ -1,6 +1,9 @@
 import {UserListContainer} from './imports/react/components/UserList/UserListContainer.jsx';
 import Modal from 'react-modal';
-import App from './views/modals/Modal.jsx';
+import {BaseModal} from './views/modals/BaseModal.jsx';
+import SettingsModal from './views/modals/SettingsModal.jsx';
+import {Button} from './imports/react/components/Button.jsx';
+import {Icon} from './imports/react/components/Icon.jsx';
 let loadLib;
 
 // Helper to load javascript libraries from the BBB server
@@ -107,10 +110,18 @@ Template.menu.events({
 
 Template.main.rendered = function () {
   ReactDOM.render(<UserListContainer />, document.getElementById('user-contents'));
-  
-  var appElement = document.getElementById('example');
-  Modal.setAppElement(appElement);
-  ReactDOM.render(<App/>, appElement);
+
+  let body = document.getElementsByTagName("body")[0];
+  Modal.setAppElement(body);
+
+  let settingsModalPlaceHolder = document.getElementById('settingsModalPlaceHolder');
+  let settingsModalRendered = ReactDOM.render(<SettingsModal title='Settings'/>, settingsModalPlaceHolder);
+
+  const SettingsButton = (props) =>
+    <Button componentClass='span' onClick={settingsModalRendered.openModal} className='btn settingsIcon navbarButton' i_class='icon ion-gear-b' rel='tooltip' title='Settings'>
+      <Icon iconName='icon ion-gear-b' className='icon ion-gear-b'/>
+    </Button>;
+  ReactDOM.render(<SettingsButton/>, document.getElementById('settingsButtonPlaceHolder'));
 
   let lastOrientationWasLandscape;
   $('#dialog').dialog({
@@ -187,10 +198,6 @@ Template.main.events({
     $('.tooltip').hide();
     toggleShield();
     return closeMenus();
-  },
-
-  'click .settingsIcon'(event) {
-    return $('#settingsModal').foundation('reveal', 'open');
   },
 
   'click .signOutIcon'(event) {

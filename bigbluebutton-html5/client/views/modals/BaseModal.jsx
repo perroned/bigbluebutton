@@ -1,4 +1,6 @@
 import Modal from 'react-modal';
+import {Icon} from '../../imports/react/components/Icon.jsx';
+import {Button} from '../../imports/react/components/Button.jsx';
 
 const customStyles = {
   overlay: {
@@ -14,17 +16,24 @@ const customStyles = {
   }
 };
 
-export default class App extends React.Component {
+export default class BaseModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalIsOpen: false
+      modalIsOpen: false,
+      title: props.title || "title",
+      content: <div>hello</div>,
     };
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.handleModalCloseRequest = this.handleModalCloseRequest.bind(this);
     this.handleSaveClicked = this.handleSaveClicked.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
+    this.setTitle = this.setTitle.bind(this);
+  }
+
+  setTitle(title) {
+    this.setState({title: title});
   }
 
   openModal() {
@@ -34,7 +43,7 @@ export default class App extends React.Component {
   closeModal() {
     this.setState({modalIsOpen: false});
   }
-  
+
   afterOpenModal() {
     // references are now sync'd and can be accessed.
     // this.refs.subtitle.style.color = '#f00';
@@ -51,10 +60,13 @@ export default class App extends React.Component {
     alert('Save button was clicked');
   }
 
+  getContent() {
+    return(<div>parent content</div>);
+  }
+
   render() {
     return (
-      <div>
-        <button onClick={this.openModal}>Open Modal</button>
+      <span>
         <Modal
           isOpen={this.state.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
@@ -62,23 +74,17 @@ export default class App extends React.Component {
           shouldCloseOnOverlayClick={false}
           style={customStyles} >
 
-          <span className="modalHeaderTitle">Settings</span>
-          <span className="modalHeaderButtons">
-            <button className="closeModalButton" onClick={this.closeModal}>Cancel</button>
-            <button className="doneModalButton" onClick={this.closeModal}>Done</button>
+          <span className="modalHeaderTitle">{this.state.title}</span>
+          <span className="modalHeaderButtonContainer">
+            <button className="modalButton close" onClick={this.closeModal}>Cancel</button>
+            <button className="modalButton done" onClick={this.closeModal}>Done</button>
           </span>
           <hr className="modalHorizontalRule" />
           <div>
-            <form>
-              <input />
-              <button>tab navigation</button>
-              <button>stays</button>
-              <button>inside</button>
-              <button>the modal</button>
-            </form>
+            {this.getContent()}
           </div>
         </Modal>
-      </div>
+      </span>
     );
   }
 };

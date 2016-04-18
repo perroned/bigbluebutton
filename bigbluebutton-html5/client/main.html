@@ -31,8 +31,9 @@
       {{/if}}
 
     <div class="rightNavbarSection">
-      {{> makeButton id="settingsIcon" btn_class="settingsIcon navbarButton" i_class="ion-gear-b" rel="tooltip"
-      title="BigBlueButton Settings"}}
+      <!-- {{> makeButton id="settingsIcon" btn_class="settingsIcon navbarButton" i_class="ion-gear-b" rel="tooltip" -->
+      <!-- title="BigBlueButton Settings"}} -->
+      <span id="settingsButtonPlaceHolder" onclick="App." style="float: left;"></span>
 
       {{> makeButton id="logout" btn_class="signOutIcon navbarButton" i_class="ion-log-out" rel="tooltip"
       title="Logout"}}
@@ -50,7 +51,7 @@
     {{#if isDisconnected}}
       {{>status}}
     {{else}}
-      <div id="example"></div>
+      <div id="settingsModalPlaceHolder"></div>
       <div class="userlistMenu ui-resizable">
         <div id="users" class="component" style="display:block;">
           <h3 class="meetingTitle">
@@ -120,7 +121,7 @@
         </div>
       </div>
       <div class="settingsMenu">
-        {{> menu id="menu"}}
+          {{> menu id="menu"}}
       </div>
       <div id="main">
         {{> header}}
@@ -153,7 +154,9 @@
 <template name="menu">
   <div id="{{id}}">
     {{> makeButton btn_class="slideButton toggleChatButton" i_class="ion-chatbubble" label="Chat"}}
-    {{> makeButton btn_class="slideButton settingsIcon" i_class="ion-gear-b" label="Settings"}}
+    <span id="settingsButtonPlaceHolder" class="slideButton" style="float: left;"></span>
+    <!-- {{> makeButton btn_class="slideButton settingsIcon" i_class="ion-gear-b" label="Settings"}} -->
+    <!-- <div id="settingsButtonPlaceHolder"></div> -->
     {{> makeButton btn_class="slideButton signOutIcon" i_class="ion-log-out" label="Log out"}}
   </div>
 </template>
