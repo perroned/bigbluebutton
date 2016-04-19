@@ -111,11 +111,11 @@ Template.menu.events({
 Template.main.rendered = function () {
   ReactDOM.render(<UserListContainer />, document.getElementById('user-contents'));
 
-  let body = document.getElementsByTagName("body")[0];
+  const body = document.getElementsByTagName("body")[0];
   Modal.setAppElement(body);
 
-  let settingsModalPlaceHolder = document.getElementById('settingsModalPlaceHolder');
-  let settingsModalRendered = ReactDOM.render(<SettingsModal title='Settings'/>, settingsModalPlaceHolder);
+  const settingsModalPlaceHolder = document.getElementById('settingsModalPlaceHolder');
+  const settingsModalRendered = ReactDOM.render(<SettingsModal title='Settings'/>, settingsModalPlaceHolder);
 
   const SettingsButton = (props) =>
     <Button componentClass='span' onClick={settingsModalRendered.openModal} className='btn settingsIcon navbarButton' i_class='icon ion-gear-b' rel='tooltip' title='Settings'>
