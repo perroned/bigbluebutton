@@ -15,13 +15,42 @@ export default class SettingsModal extends BaseModal {
     this.submenus = [];
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.setState({activeSubmenu: 0});
-    this.submenus.push(<AudioMenu title="Audio" prependIconName="ion-" icon="ios-mic-outline"/>);
-    this.submenus.push(<VideoMenu title="Video" prependIconName="ion-" icon="ios-videocam-outline"/>);
-    this.submenus.push(<ApplicationMenu title="App" prependIconName="ion-" icon="ios-folder-outline"/>);
-    this.submenus.push(<UsersMenu title="Participants" prependIconName="ion-" icon="person"/>);
-    this.submenus.push(<SessionMenu title="Session" prependIconName="ion-" icon="android-exit"/>);
+    this.submenus.push({className: 'AudioMenu', props: { title: 'Audio', prependIconName: 'ion-', icon: 'ios-mic-outline'}});
+    this.submenus.push({className: 'VideoMenu', props: { title: 'Video', prependIconName: 'ion-', icon: 'ios-videocam-outline'}});
+    this.submenus.push({className: 'ApplicationMenu', props: { title: 'App', prependIconName: 'ion-', icon: 'ios-folder-outline'}});
+    this.submenus.push({className: 'UsersMenu', props: { title: 'Participants', prependIconName: 'ion-', icon: 'person'}});
+    this.submenus.push({className: 'SessionMenu', props: { title: 'Session', prependIconName: 'ion-', icon: 'android-exit'}});
+  }
+
+  createMenu() {
+    const curr = this.state.activeSubmenu === undefined ? 0 : this.state.activeSubmenu;
+
+    let props = {
+      FontSize: this.props.FontSize,
+      title: this.submenus[curr].props.title,
+      prependIconName: this.submenus[curr].props.prependIconName,
+      icon: this.submenus[curr].props.icon,
+    };
+
+    switch (this.submenus[curr].className) {
+      case 'AudioMenu': {
+        return <AudioMenu {...props}/>;
+      }
+      case 'VideoMenu': {
+        return <VideoMenu {...props}/>;
+      }
+      case 'ApplicationMenu': {
+        return <ApplicationMenu {...props}/>;
+      }
+      case 'UsersMenu': {
+        return <UsersMenu {...props}/>;
+      }
+      case 'SessionMenu': {
+        return <SessionMenu {...props}/>;
+      }
+    }
   }
 
   openModal() {
@@ -47,20 +76,19 @@ export default class SettingsModal extends BaseModal {
   getContent() {
     return(
       <div>
+        <div>{this.props.FontSize.size}</div>
         <div className="settingsMenuLeft">
           <ul style={{listStyleType: 'none'}}>
             {this.submenus.map((value, index) => (
               <li key={index} onClick={this.clickSubmenu.bind(this, index)}
-                className={classNames('settingsSubmenuItem', {'activeRow': index == this.state.activeSubmenu})}>
+                className={classNames('settingsSubmenuItem', {'settingsSubmenuItemActive': index == this.state.activeSubmenu})}>
                 <Icon key={index} prependIconName={value.props.prependIconName} iconName={value.props.icon} title={value.props.title}/>
-                  <span>{value.props.title}</span>
-              </li>  
+                <span> - {value.props.title}</span>
+              </li>
             ))}
           </ul>
         </div>
-        <div className="settingsMenuRight">
-          {this.submenus[this.state.activeSubmenu === undefined ? 0 : this.state.activeSubmenu]}
-        </div>
+        <div className="settingsMenuRight">{this.createMenu()}</div>
       </div>
     );
   }

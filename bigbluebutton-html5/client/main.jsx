@@ -109,19 +109,37 @@ Template.menu.events({
 });
 
 Template.main.rendered = function () {
+  const App = React.createClass({
+    getInitialState: function() {
+      return {secondsElapsed: 0};
+    },
+    tick: function() {
+      this.setState({secondsElapsed: this.state.secondsElapsed + 1});
+    },
+    componentDidMount: function() {
+      this.interval = setInterval(this.tick, 1000);
+
+      ReactDOM.render(
+        <Button componentClass='span' onClick={this.refs['settingsModal'].openModal} className='btn settingsIcon navbarButton' i_class='icon ion-gear-b' rel='tooltip' title='Settings'>
+          <Icon iconName='icon ion-gear-b' className='icon ion-gear-b'/>
+        </Button>
+      , document.getElementById('settingsButtonPlaceHolder'));
+    },
+    componentWillUnmount: function() {
+      clearInterval(this.interval);
+    },
+    change: function() {
+      this.setState({secondsElapsed: 0});
+    },
+    render: function() {
+      return (
+        <SettingsModal ref="settingsModal" title='Settings' FontSize={{ size: this.state.secondsElapsed, change: this.change }}/>
+      );
+    }
+  });
+  Modal.setAppElement(document.getElementsByTagName("body")[0]);
   ReactDOM.render(<UserListContainer />, document.getElementById('user-contents'));
-
-  const body = document.getElementsByTagName("body")[0];
-  Modal.setAppElement(body);
-
-  const settingsModalPlaceHolder = document.getElementById('settingsModalPlaceHolder');
-  const settingsModalRendered = ReactDOM.render(<SettingsModal title='Settings'/>, settingsModalPlaceHolder);
-
-  const SettingsButton = (props) =>
-    <Button componentClass='span' onClick={settingsModalRendered.openModal} className='btn settingsIcon navbarButton' i_class='icon ion-gear-b' rel='tooltip' title='Settings'>
-      <Icon iconName='icon ion-gear-b' className='icon ion-gear-b'/>
-    </Button>;
-  ReactDOM.render(<SettingsButton/>, document.getElementById('settingsButtonPlaceHolder'));
+  ReactDOM.render(<App/>, document.getElementById('settingsModalPlaceHolder'));
 
   let lastOrientationWasLandscape;
   $('#dialog').dialog({

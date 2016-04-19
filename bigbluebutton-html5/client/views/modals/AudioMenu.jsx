@@ -10,7 +10,10 @@ export default class AudioMenu extends BaseMenu {
 
   getContent() {
     return (
-      <div>inside audio menu</div>
+      <div>
+        <p>inside audio menu</p>
+        <p>props.FontSize - {this.props.FontSize.size}</p>
+      </div>
     );
   }
 };

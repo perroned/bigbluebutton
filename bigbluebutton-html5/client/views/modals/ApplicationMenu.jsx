@@ -10,7 +10,19 @@ export default class ApplicationMenu extends BaseMenu {
 
   getContent() {
     return (
-      <div>inside application menu</div>
+      <div>
+        <p style={{float: 'left'}}>Audio notifications for chat</p>
+        <p style={{float: 'right'}}>audio not</p>
+        <p>fsdfds</p>
+        <p style={{float: 'left'}}>Push notifications for chat</p>
+        <p style={{float: 'right'}}>push not</p>
+        <br />
+        <div style={{clear: 'both'}}>
+          <div style={{float: 'left', width: '25%', textAlign: 'left'}}>purple</div>
+          <div style={{float: 'left', width: '50%', textAlign: 'center'}}>monkey</div>
+          <div style={{float: 'left', width: '25%', textAlign: 'right'}}>dishwasher</div>
+        </div>
+      </div>
     );
   }
 };
