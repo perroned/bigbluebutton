@@ -109,34 +109,43 @@ Template.menu.events({
 });
 
 Template.main.rendered = function () {
-  const App = React.createClass({
-    getInitialState: function() {
-      return {secondsElapsed: 0};
-    },
-    tick: function() {
-      this.setState({secondsElapsed: this.state.secondsElapsed + 1});
-    },
-    componentDidMount: function() {
-      this.interval = setInterval(this.tick, 1000);
+  console.log(stuff);
+  class App extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        secondsElapsed: 0
+      };
+    }
+
+    tick() { this.setState({secondsElapsed: this.state.secondsElapsed + 1}); }
+
+    componentDidMount() {
+      this.interval = setInterval(this.tick.bind(this), 1000);
 
       ReactDOM.render(
         <Button componentClass='span' onClick={this.refs['settingsModal'].openModal} className='btn settingsIcon navbarButton' i_class='icon ion-gear-b' rel='tooltip' title='Settings'>
           <Icon iconName='icon ion-gear-b' className='icon ion-gear-b'/>
         </Button>
       , document.getElementById('settingsButtonPlaceHolder'));
-    },
-    componentWillUnmount: function() {
+    }
+
+    componentWillUnmount() {
       clearInterval(this.interval);
-    },
-    change: function() {
+    }
+
+    change() {
       this.setState({secondsElapsed: 0});
-    },
-    render: function() {
+    }
+
+    render() {
+      FontSize = {size: this.state.secondsElapsed, change: this.change};
       return (
-        <SettingsModal ref="settingsModal" title='Settings' FontSize={{ size: this.state.secondsElapsed, change: this.change }}/>
+        <SettingsModal ref="settingsModal" title='Settings' FontSize={FontSize}/>
       );
     }
-  });
+  };
+
   Modal.setAppElement(document.getElementsByTagName("body")[0]);
   ReactDOM.render(<UserListContainer />, document.getElementById('user-contents'));
   ReactDOM.render(<App/>, document.getElementById('settingsModalPlaceHolder'));
