@@ -8,6 +8,7 @@ import ApplicationMenu from './ApplicationMenu.jsx';
 import UsersMenu from './UsersMenu.jsx';
 import SessionMenu from './SessionMenu.jsx';
 import classNames from 'classnames';
+import FontSizeControl from '../../FontSizeControl.js';
 
 export default class SettingsModal extends BaseModal {
   constructor(props) {
@@ -28,7 +29,7 @@ export default class SettingsModal extends BaseModal {
     const curr = this.state.activeSubmenu === undefined ? 0 : this.state.activeSubmenu;
 
     let props = {
-      // FontSizeControl: this.props.FontSizeControl,
+      fontSizeControl: this.props.fontSizeControl,
       title: this.submenus[curr].props.title,
       prependIconName: this.submenus[curr].props.prependIconName,
       icon: this.submenus[curr].props.icon,

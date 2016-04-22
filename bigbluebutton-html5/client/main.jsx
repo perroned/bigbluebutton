@@ -6,6 +6,7 @@ import {Button} from './imports/react/components/Button.jsx';
 import {Icon} from './imports/react/components/Icon.jsx';
 import {Meteor} from 'meteor/meteor';
 import {createContainer} from 'meteor/react-meteor-data';
+import FontSizeControl from './FontSizeControl.js';
 let loadLib;
 
 // Helper to load javascript libraries from the BBB server
@@ -118,20 +119,8 @@ Template.main.rendered = function () {
         fontSize: 12,
       };
 
-      this.fontSizeControl = {
-        calculateHeader: (size) => {
-          return size * 2;
-        },
-        changeFontSize: () => {
-          this.setState({
-            fontSize: this.state.fontSize + 1000
-          });
-        },
-        getFontSize: () => {
-          return this.state.fontSize;
-        }
-      };
-
+      this.fontSizeControl = new FontSizeControl();
+      this.fontSizeControl.init(this, 'fontSizeControl');
     }
 
     componentDidMount() {

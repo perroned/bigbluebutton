@@ -2,6 +2,7 @@ import Modal from 'react-modal';
 import {Icon} from '../../imports/react/components/Icon.jsx';
 import {Button} from '../../imports/react/components/Button.jsx';
 import BaseMenu from './BaseMenu.jsx';
+import FontSizeControl from '../../FontSizeControl.js';
 
 export default class AudioMenu extends BaseMenu {
   constructor(props) {
@@ -12,8 +13,8 @@ export default class AudioMenu extends BaseMenu {
     return (
       <div>
         <p>inside audio menu</p>
+        <p>font size - {this.props.fontSizeControl.getFontSize()}</p>
       </div>
-      // <p>props.FontSize - {this.props.FontSizeControl.getFontSize()}</p>
     );
   }
 };
