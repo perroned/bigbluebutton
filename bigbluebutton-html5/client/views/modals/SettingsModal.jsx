@@ -71,16 +71,14 @@ export default class SettingsModal extends BaseModal {
   }
 
   clickSubmenu(i) {
-    this.props.fontSizeControl.changeFontSize();
     this.setState({activeSubmenu: i});
   }
 
   getContent() {
     return(
       <div>
-        <div>{this.props.fontSizeControl.getFontSize()}</div>
         <div className="settingsMenuLeft">
-          <ul style={{listStyleType: 'none'}}>
+          <ul style={{listStyleType: 'none', fontSize: this.props.fontSizeControl.getListSize() + 'px'}}>
             {this.submenus.map((value, index) => (
               <li key={index} onClick={this.clickSubmenu.bind(this, index)}
                 className={classNames('settingsSubmenuItem', {'settingsSubmenuItemActive': index == this.state.activeSubmenu})}>

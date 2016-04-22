@@ -14,8 +14,10 @@ export default class BaseMenu extends React.Component {
   render() {
     return (
       <div>
-        <h3>{this.props.title}</h3>
-        {this.getContent()}
+        <h3 style={{fontSize: this.props.fontSizeControl.getHeaderSize() + 'px'}}>{this.props.title}</h3>
+        <div style={{fontSize: this.props.fontSizeControl.getContentSize() + 'px'}}>
+          {this.getContent()}
+        </div>
       </div>
     );
   }

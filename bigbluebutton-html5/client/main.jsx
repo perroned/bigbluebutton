@@ -116,7 +116,7 @@ Template.main.rendered = function () {
     constructor(props) {
       super(props);
       this.state = {
-        fontSize: 12,
+        fontSize: FontSizeControl.fontSizeEnum.MEDIUM,
       };
 
       this.fontSizeControl = new FontSizeControl();
@@ -133,10 +133,7 @@ Template.main.rendered = function () {
 
     render() {
       return (
-        <div>
-          <p>{this.fontSizeControl.getFontSize()}</p>
-          <SettingsModal ref="settingsModal" title='Settings' fontSizeControl={this.fontSizeControl}/>
-        </div>
+        <SettingsModal ref="settingsModal" title='Settings' fontSizeControl={this.fontSizeControl}/>
       );
     }
   };

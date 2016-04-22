@@ -74,7 +74,7 @@ export default class BaseModal extends React.Component {
           shouldCloseOnOverlayClick={false}
           style={customStyles} >
 
-          <span className="modalHeaderTitle">{this.state.title}</span>
+          <span className="modalHeaderTitle" style={{fontSize: this.props.fontSizeControl.getTitleSize() + 'px'}}>{this.state.title}</span>
           <span className="modalHeaderButtonContainer">
             <button className="modalButton close" onClick={this.closeModal}>Cancel</button>
             <button className="modalButton done" onClick={this.closeModal}>Done</button>
