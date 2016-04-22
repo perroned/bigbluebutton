@@ -1,7 +1,7 @@
 export default class BindableObject {
   constructor() {}
 
-  _bind(obj1, obj, ...methods) {
-    methods.forEach( (method) => obj1[obj][method] = obj1[obj][method].bind(obj1));
+  _bind(parent, child, ...methods) {
+    methods.forEach( (method) => parent[child][method] = parent[child][method].bind(parent));
   }
 }
