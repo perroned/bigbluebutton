@@ -28,7 +28,7 @@ export default class SettingsModal extends BaseModal {
     const curr = this.state.activeSubmenu === undefined ? 0 : this.state.activeSubmenu;
 
     let props = {
-      FontSize: this.props.FontSize,
+      // FontSizeControl: this.props.FontSizeControl,
       title: this.submenus[curr].props.title,
       prependIconName: this.submenus[curr].props.prependIconName,
       icon: this.submenus[curr].props.icon,
@@ -70,13 +70,14 @@ export default class SettingsModal extends BaseModal {
   }
 
   clickSubmenu(i) {
+    this.props.fontSizeControl.changeFontSize();
     this.setState({activeSubmenu: i});
   }
 
   getContent() {
     return(
       <div>
-        <div>{this.props.FontSize.size}</div>
+        <div>{this.props.fontSizeControl.getFontSize()}</div>
         <div className="settingsMenuLeft">
           <ul style={{listStyleType: 'none'}}>
             {this.submenus.map((value, index) => (

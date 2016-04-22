@@ -4,6 +4,8 @@ import {BaseModal} from './views/modals/BaseModal.jsx';
 import SettingsModal from './views/modals/SettingsModal.jsx';
 import {Button} from './imports/react/components/Button.jsx';
 import {Icon} from './imports/react/components/Icon.jsx';
+import {Meteor} from 'meteor/meteor';
+import {createContainer} from 'meteor/react-meteor-data';
 let loadLib;
 
 // Helper to load javascript libraries from the BBB server
@@ -109,20 +111,30 @@ Template.menu.events({
 });
 
 Template.main.rendered = function () {
-  console.log(stuff);
   class App extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        secondsElapsed: 0
+        fontSize: 12,
       };
+
+      this.fontSizeControl = {
+        calculateHeader: (size) => {
+          return size * 2;
+        },
+        changeFontSize: () => {
+          this.setState({
+            fontSize: this.state.fontSize + 1000
+          });
+        },
+        getFontSize: () => {
+          return this.state.fontSize;
+        }
+      };
+
     }
 
-    tick() { this.setState({secondsElapsed: this.state.secondsElapsed + 1}); }
-
     componentDidMount() {
-      this.interval = setInterval(this.tick.bind(this), 1000);
-
       ReactDOM.render(
         <Button componentClass='span' onClick={this.refs['settingsModal'].openModal} className='btn settingsIcon navbarButton' i_class='icon ion-gear-b' rel='tooltip' title='Settings'>
           <Icon iconName='icon ion-gear-b' className='icon ion-gear-b'/>
@@ -130,25 +142,26 @@ Template.main.rendered = function () {
       , document.getElementById('settingsButtonPlaceHolder'));
     }
 
-    componentWillUnmount() {
-      clearInterval(this.interval);
-    }
-
-    change() {
-      this.setState({secondsElapsed: 0});
-    }
-
     render() {
-      FontSize = {size: this.state.secondsElapsed, change: this.change};
       return (
-        <SettingsModal ref="settingsModal" title='Settings' FontSize={FontSize}/>
+        <div>
+          <p>{this.fontSizeControl.getFontSize()}</p>
+          <SettingsModal ref="settingsModal" title='Settings' fontSizeControl={this.fontSizeControl}/>
+        </div>
       );
     }
   };
 
   Modal.setAppElement(document.getElementsByTagName("body")[0]);
   ReactDOM.render(<UserListContainer />, document.getElementById('user-contents'));
-  ReactDOM.render(<App/>, document.getElementById('settingsModalPlaceHolder'));
+
+  let AppContainer = createContainer(() => {
+    return {
+    };
+  }, App);
+
+
+  ReactDOM.render(<AppContainer/>, document.getElementById('settingsModalPlaceHolder'));
 
   let lastOrientationWasLandscape;
   $('#dialog').dialog({

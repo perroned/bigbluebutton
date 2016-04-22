@@ -12,8 +12,8 @@ export default class AudioMenu extends BaseMenu {
     return (
       <div>
         <p>inside audio menu</p>
-        <p>props.FontSize - {this.props.FontSize.size}</p>
       </div>
+      // <p>props.FontSize - {this.props.FontSizeControl.getFontSize()}</p>
     );
   }
 };
