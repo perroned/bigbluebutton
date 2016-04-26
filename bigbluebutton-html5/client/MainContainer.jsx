@@ -2,6 +2,7 @@ import React from 'react';
 import {Header} from '/imports/ui/main/Header.jsx';
 import {Whiteboard} from '/imports/ui/whiteboard/Whiteboard.jsx';
 import {Chat} from '/imports/ui/chat/Chat.jsx';
+import PollingContainer from '/imports/ui/polling/PollingContainer.jsx';
 
 MainContainer = React.createClass({
   handleShield() {
