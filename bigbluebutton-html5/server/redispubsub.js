@@ -806,6 +806,43 @@ registerHandlers = function (emitter) {
     }
   });
 
+  function handleDeskshare(arg) {
+    const payload = arg.payload;
+    const voiceBridge = Meteor.Meetings.findOne({meetingId: payload.meetingId}).voiceConf;
+    const thisMeetingId = payload.meetingId
+    const deskShareInfo = {
+      vw: payload.vw,
+      vh: payload.vh,
+      voice_bridge: vb, // payload.voice_bridge
+      broadcasting: payload.broadcasting,
+    };
+    handleDeskShareChange(thisMeetingId, deskShareInfo);
+  }
+
+  emitter.on('desk_share_notify_viewers_rtmp', function (arg) {
+    handleDeskshare(arg);
+    return arg.callback();
+  });
+
+  emitter.on('desk_share_notify_a_single_viewer', function (arg) {
+    if (arg.payload.requester_id === 'nodeJSapp') {
+      handleDeskshare(arg);
+    }
+    return arg.callback();
+  });
+
+  emitter.on('user_voted_poll_message', function (arg) {
+    let payload, meetingId, pollObj, requesterId;
+    payload = arg.payload;
+    meetingId = payload.meeting_id;
+    if (payload != null && payload.poll != null && meetingId != null && payload.presenter_id != null) {
+      pollObj = payload.poll;
+      requesterId = payload.presenter_id;
+      updatePollCollection(pollObj, meetingId, requesterId);
+      return arg.callback();
+    }
+  });
+
   // TODO how to handle the rest of the messages - is there a wild card?
   // we need a way of calling the callback
   // emitter.on('' , function (arg) {
@@ -824,6 +861,5 @@ registerHandlers = function (emitter) {
     arg.callback();
   });
   //eject_voice_user_message
-  
-};
 
+};

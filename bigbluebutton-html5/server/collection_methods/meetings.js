@@ -1,3 +1,5 @@
+import {handleDeskShareChange, clearDeskshareCollection} from './deskshare.js';
+
 this.addMeetingToCollection = function (meetingId, name, intendedForRecording, voiceConf, duration, callback) {
   //check if the meeting is already in the collection
 
@@ -10,6 +12,7 @@ this.addMeetingToCollection = function (meetingId, name, intendedForRecording, v
       currentlyBeingRecorded: false,
       voiceConf: voiceConf,
       duration: duration,
+      deskshare: {},
       roomLockSettings: {
         // by default the lock settings will be disabled on meeting create
         disablePrivateChat: false,
@@ -80,6 +83,9 @@ this.removeMeetingFromCollection = function (meetingId, callback) {
 
     // delete the cursor for the meeting
     clearCursorCollection(meetingId);
+
+    // delete the deskshare for the meeting
+    clearDeskshareCollection(meetingId);
     return callback();
   } else {
     funct = function (localCallback) {

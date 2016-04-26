@@ -1,3 +1,5 @@
+import {handleDeskShareChange, clearDeskshareCollection} from './collection_methods/deskshare.js';
+
 const indexOf = [].indexOf || function (item) {
   for (let i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1;
 };
@@ -15,6 +17,7 @@ Meteor.startup(() => {
   clearPresentationsCollection();
   clearPollCollection();
   clearCursorCollection();
+  clearDeskshareCollection();
 
   const eventEmitter = new (Npm.require('events').EventEmitter);
   registerHandlers(eventEmitter);
@@ -60,6 +63,8 @@ Meteor.startup(() => {
     'poll_started_message',
     'poll_stopped_message',
     'user_voted_poll_message',
+    'desk_share_notify_viewers_rtmp',
+    'desk_share_notify_a_single_viewer',
   ];
 
   // create create a PubSub connection, start listening
@@ -114,7 +119,7 @@ Meteor.startup(() => {
 
     }
   };
-  
+
   const logRedisMessage = function (eventName, json) {
     // Avoid cluttering the log with json messages carrying little or repetitive
     // information. Comment out a message type in the array to be able to see it

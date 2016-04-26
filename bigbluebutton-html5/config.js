@@ -47,6 +47,20 @@ config.app.skipCheck = false;
 
 config.app.WebRTCHangupRetryInterval = 2000;
 
+// IP address of FreeSWITCH server for use of mod_verto and WebRTC deshsharing
+config.vertoServerAddress = "HOST";
+
+// The Chrome extension key signed to the Chrome Extension
+config.deskshareExtensionKey = "your-extension-key";
+
+// Allows a caller to access a FreeSWITCH dialplan
+config.freeswitchProfilePassword = "1234";
+
+config.vertoPort = "8082";
+
+// specifies whether to use SIP.js for audio over mod_verto
+config.useSIPAudio = false;
+
 // Configs for redis
 
 config.redis = {};

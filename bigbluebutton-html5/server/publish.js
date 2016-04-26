@@ -1,3 +1,5 @@
+import {Deskshare} from '../imports/api/deskshare.js';
+
 // Publish only the online users that are in the particular meetingId
 // On the client side we pass the meetingId parameter
 Meteor.publish('users', function (meetingId, userid, authToken) {
@@ -177,4 +179,9 @@ Meteor.publish('whiteboard-clean-status', function (meetingId) {
   return Meteor.WhiteboardCleanStatus.find({
     meetingId: meetingId,
   });
+});
+
+Meteor.publish('deskshare', function (meetingId) {
+  Meteor.log.info(`publishing deskshare for ${meetingId}`);
+  return Deskshare.findOne({meetingId: meetingId});
 });
