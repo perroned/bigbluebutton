@@ -1,6 +1,10 @@
 let mapPolls = function () {
   let poll = Meteor.Polls.findOne({})
-  const pollExists = poll != null && poll.poll_info.poll.requester != getInSession('userId')
+  if (!poll) {
+    return { pollExists: false };
+  }
+
+  const pollExists = poll.poll_info.poll.requester != getInSession('userId')
   return {
     poll: {
       answers: poll.poll_info.poll.answers,
