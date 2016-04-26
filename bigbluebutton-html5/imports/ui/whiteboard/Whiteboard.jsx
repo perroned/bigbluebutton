@@ -113,11 +113,11 @@ export let Whiteboard = React.createClass({
           {this.data.is_presenter ?
             <WhiteboardControls />
           : null }
-          {this.data.poll_started ?
-            <Polling/>
-            : null }
         </div>
       </div>
+      // {this.data.poll_started ?
+      //   <Polling/>
+      //   : null }
     );
   },
 });
