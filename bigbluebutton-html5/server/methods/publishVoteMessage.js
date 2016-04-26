@@ -1,33 +1,30 @@
 Meteor.methods({
-  publishVoteMessage(meetingId, pollAnswerId, requesterUserId, requesterToken) {
+  publishVoteMessage(pollId, pollAnswerId, meetingId, requesterUserId, requesterToken) {
     let _poll_id, eventName, message, result;
     if (isAllowedTo('subscribePoll', meetingId, requesterUserId, requesterToken)) {
       eventName = 'vote_poll_user_request_message';
+
       result = Meteor.Polls.findOne({
-        'users': requesterUserId,
+        'users': { $in: [requesterUserId] },
         'meetingId': meetingId,
-        'poll.answers.id': pollAnswerId,
-      }, {
-        fields: {
-          'poll.id': 1,
-          _id: 0,
-        },
+        'poll.answers.id': { $in: [pollAnswerId] },
+        'poll.id': pollId
       });
-      _poll_id = result.poll_info.poll.id;
-      if ((eventName != null) && (meetingId != null) && (requesterUserId != null) && (_poll_id != null) && (pollAnswerId != null)) {
+
+      if ((eventName != null) && (result.meetingId != null) && (requesterUserId != null) && (pollAnswerId != null)) {
         message = {
           payload: {
-            meeting_id: meetingId,
+            meeting_id: result.meetingId,
             user_id: requesterUserId,
-            poll_id: _poll_id,
+            poll_id: result.poll.id,
             question_id: 0,
             answer_id: pollAnswerId,
           },
         };
         Meteor.Polls.update({
-          'users': requesterUserId,
+          'users': { $in: [requesterUserId] },
           'meetingId': meetingId,
-          'poll.answers.id': pollAnswerId,
+          'poll.answers.id': { $in: [pollAnswerId] },
         }, {
           $pull: {
             'users': requesterUserId,

@@ -8,9 +8,13 @@ let mapPolls = function () {
   return {
     poll: {
       answers: poll.poll.answers,
+      pollId: poll.poll.id,
     },
     pollExists: true,
-    amIRequester: amIRequester
+    amIRequester: amIRequester,
+    handleVote: function(pollId, answerId) {
+      Meteor.call('publishVoteMessage', pollId, answerId.id, BBB.getMeetingId(), getInSession('userId'), getInSession('authToken'));
+    }
   };
 }
 
