@@ -114,7 +114,6 @@ Meteor.publish('bbb_poll', function (meetingId, userid, authToken) {
       }, {
         fields: {
           'meetingId': 0,
-          'requester': 0,
           'users': 0,
         },
       });
@@ -130,7 +129,6 @@ Meteor.publish('bbb_poll', function (meetingId, userid, authToken) {
           'poll.answers.num_votes': 0,
           'num_responders': 0,
           'num_respondents': 0,
-          'requester': 0,
           'users': 0,
         },
       });
