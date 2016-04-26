@@ -4,12 +4,12 @@ Meteor.methods({
     if (isAllowedTo('subscribePoll', meetingId, requesterUserId, requesterToken)) {
       eventName = 'vote_poll_user_request_message';
       result = Meteor.Polls.findOne({
-        'poll_info.users': requesterUserId,
-        'poll_info.meetingId': meetingId,
-        'poll_info.poll.answers.id': pollAnswerId,
+        'users': requesterUserId,
+        'meetingId': meetingId,
+        'poll.answers.id': pollAnswerId,
       }, {
         fields: {
-          'poll_info.poll.id': 1,
+          'poll.id': 1,
           _id: 0,
         },
       });
@@ -25,12 +25,12 @@ Meteor.methods({
           },
         };
         Meteor.Polls.update({
-          'poll_info.users': requesterUserId,
-          'poll_info.meetingId': meetingId,
-          'poll_info.poll.answers.id': pollAnswerId,
+          'users': requesterUserId,
+          'meetingId': meetingId,
+          'poll.answers.id': pollAnswerId,
         }, {
           $pull: {
-            'poll_info.users': requesterUserId,
+            'users': requesterUserId,
           },
         });
         message = appendMessageHeader(eventName, message);

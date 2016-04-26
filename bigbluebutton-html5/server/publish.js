@@ -109,17 +109,29 @@ Meteor.publish('bbb_poll', function (meetingId, userid, authToken) {
     if (isAllowedTo('subscribeAnswers', meetingId, userid, authToken)) {
       Meteor.log.info('publishing Poll for presenter: ' + meetingId + ' ' + userid + ' ' + authToken);
       return Meteor.Polls.find({
-        'poll_info.meetingId': meetingId,
-        'poll_info.users': userid,
+        'meetingId': meetingId,
+        'users': userid,
+      }, {
+        fields: {
+          'meetingId': 0,
+          'requester': 0,
+          'users': 0,
+        },
       });
     } else {
       Meteor.log.info('publishing Poll for viewer: ' + meetingId + ' ' + userid + ' ' + authToken);
+      Meteor.log.info(Meteor.Polls.findOne());
       return Meteor.Polls.find({
-        'poll_info.meetingId': meetingId,
-        'poll_info.users': userid,
+        'meetingId': meetingId,
+        'users': userid,
       }, {
         fields: {
-          'poll_info.poll.answers.num_votes': 0,
+          'meetingId': 0,
+          'poll.answers.num_votes': 0,
+          'num_responders': 0,
+          'num_respondents': 0,
+          'requester': 0,
+          'users': 0,
         },
       });
     }
