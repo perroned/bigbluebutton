@@ -57,9 +57,9 @@ Template.main.rendered = function () {
   ReactDOM.render(<MainContainer />, document.getElementById('main'));
   ReactDOM.render(<UserListContainer />, document.getElementById('user-contents'));
 
-  var appElement = document.getElementById('example');
-  Modal.setAppElement(appElement);
-  ReactDOM.render(<App/>, appElement);
+  // var appElement = document.getElementById('example');
+  // Modal.setAppElement(appElement);
+  // ReactDOM.render(<App/>, appElement);
 
   let lastOrientationWasLandscape;
   $('#dialog').dialog({
