@@ -19,6 +19,7 @@ MainContainer = React.createClass({
             <div onClick={this.handleShield} className="shield"></div>
             <Whiteboard />
             <Chat />
+            <PollingContainer />
           </div>
       </div>
     );
