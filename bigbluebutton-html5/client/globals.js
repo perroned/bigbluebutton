@@ -511,85 +511,6 @@ this.closeMenus = function () {
   }
 };
 
-// Periodically check the status of the WebRTC call, when a call has been established attempt to hangup,
-// retry if a call is in progress, send the leave voice conference message to BBB
-this.exitVoiceCall = function (event, afterExitCall) {
-  let checkToHangupCall, hangupCallback;
-
-  // To be called when the hangup is initiated
-  hangupCallback = function () {
-    return console.log('Exiting Voice Conference');
-  };
-
-  // Checks periodically until a call is established so we can successfully end the call
-  // clean state
-  getInSession('triedHangup', false);
-
-  // function to initiate call
-  (checkToHangupCall = function (context) {
-    // if an attempt to hang up the call is made when the current session is not yet finished, the request has no effect
-    // keep track in the session if we haven't tried a hangup
-    if (BBB.getCallStatus() !== null && !getInSession('triedHangup')) {
-      console.log('Attempting to hangup on WebRTC call');
-      if (BBB.amIListenOnlyAudio()) {
-        Meteor.call(
-          'listenOnlyRequestToggle',
-          BBB.getMeetingId(),
-          getInSession('userId'),
-          getInSession('authToken'),
-          false
-        );
-      }
-
-      BBB.leaveVoiceConference(hangupCallback);
-      getInSession('triedHangup', true);
-      notification_WebRTCAudioExited();
-      if (afterExitCall) {
-        return afterExitCall(this, Meteor.config.app.listenOnly);
-      }
-    } else {
-      console.log(
-        `RETRYING hangup on WebRTC call in ${Meteor.config.app.WebRTCHangupRetryInterval} ms`
-      );
-      return setTimeout(checkToHangupCall, Meteor.config.app.WebRTCHangupRetryInterval);
-    }
-  })(this); // automatically run function
-  return false;
-};
-
-// close the daudio UI, then join the conference. If listen only send the request to the server
-this.joinVoiceCall = function (event, arg) {
-  let isListenOnly, joinCallback;
-  isListenOnly = (arg != null ? arg : {}).isListenOnly;
-  if (!isWebRTCAvailable()) {
-    notification_WebRTCNotSupported();
-    return;
-  }
-
-  if (isListenOnly == null) {
-    isListenOnly = true;
-  }
-
-  // create voice call params
-  joinCallback = function (message) {
-    return console.log('Beginning WebRTC Conference Call');
-  };
-
-  notification_WebRTCAudioJoining();
-  if (isListenOnly) {
-    Meteor.call(
-      'listenOnlyRequestToggle',
-      BBB.getMeetingId(),
-      getInSession('userId'),
-      getInSession('authToken'),
-      true
-    );
-  }
-
-  BBB.joinVoiceConference(joinCallback, isListenOnly); // make the call //TODO should we apply role permissions to this action?
-  return false;
-};
-
 // Starts the entire logout procedure.
 // meeting: the meeting the user is in
 // the user's userId
@@ -708,7 +629,6 @@ this.onLoadComplete = function () {
   return Meteor.Users.find().observe({
     changed(newUser, oldUser) {
       if (Meteor.config.app.listenOnly === true && newUser.user.presenter === false && oldUser.user.presenter === true && BBB.getCurrentUser().userId === newUser.userId && oldUser.user.listenOnly === false) {
-        return exitVoiceCall(this, joinVoiceCall);
       }
     },
   });

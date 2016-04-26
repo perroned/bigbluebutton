@@ -13,10 +13,7 @@ import '/imports/ui/stylesheets/whiteboard.less';
 let loadLib;
 
 // Helper to load javascript libraries from the BBB server
-loadLib = function (libname) {
-  let retryMessageCallback, successCallback;
-  successCallback = function () {};
-
+loadLib = function (libname, successCallback) {
   retryMessageCallback = function (param) {
     return console.log('Failed to load library', param);
   };
@@ -30,6 +27,17 @@ Meteor.startup(() => {
   loadLib('sip.js');
   loadLib('bbb_webrtc_bridge_sip.js');
   loadLib('bbblogger.js');
+  // loadLib('getScreenId.js');
+  // loadLib('jquery.FSRTC.js');
+  // loadLib('jquery.verto.js');
+  // loadLib('jquery.jsonrpcclient.js');
+  // loadLib('Screen-Capturing.js');
+  // loadLib('verto_extension.js', function() {
+  //   window.verto_afterStreamPublish = function() {
+  //   console.log('Video stream published - notifying clients to subscribe');
+  // }});
+  // loadLib('verto_extension_share.js');
+
   return this.SessionAmplify = _.extend({}, Session, {
     keys: _.object(_.map(amplify.store.sessionStorage(), (value, key) => {
       return [key, JSON.stringify(value)];
