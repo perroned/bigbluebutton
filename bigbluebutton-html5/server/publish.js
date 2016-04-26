@@ -183,5 +183,5 @@ Meteor.publish('whiteboard-clean-status', function (meetingId) {
 
 Meteor.publish('deskshare', function (meetingId) {
   Meteor.log.info(`publishing deskshare for ${meetingId}`);
-  return Deskshare.findOne({meetingId: meetingId});
+  return Deskshare.find({meetingId: meetingId});
 });
