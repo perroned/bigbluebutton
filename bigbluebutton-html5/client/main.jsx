@@ -1,6 +1,15 @@
-import {UserListContainer} from './imports/react/components/UserList/UserListContainer.jsx';
-import Modal from 'react-modal';
-import App from './views/modals/Modal.jsx';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {UserListContainer} from '/imports/ui/userlist/UserListContainer.jsx';
+import { createContainer } from 'meteor/react-meteor-data';
+import '/imports/ui/stylesheets/variables.less';
+import '/imports/ui/stylesheets/style.less';
+import '/imports/ui/stylesheets/chat.less';
+import '/imports/ui/stylesheets/mixins.less';
+import '/imports/ui/stylesheets/modals.less';
+import '/imports/ui/stylesheets/users.less';
+import '/imports/ui/stylesheets/whiteboard.less';
+
 let loadLib;
 
 // Helper to load javascript libraries from the BBB server
@@ -32,67 +41,6 @@ Meteor.startup(() => {
   });
 });
 
-//
-Template.header.events({
-  'click .chatBarIcon'(event) {
-    $('.tooltip').hide();
-    return toggleChatbar();
-  },
-
-  'click .hideNavbarIcon'(event) {
-    $('.tooltip').hide();
-    return toggleNavbar();
-  },
-
-  'click .leaveAudioButton'(event) {
-    return exitVoiceCall(event);
-  },
-
-  'click .muteIcon'(event) {
-    $('.tooltip').hide();
-    return toggleMic(this);
-  },
-
-  'click .hideNavbarIcon'(event) {
-    $('.tooltip').hide();
-    return toggleNavbar();
-  },
-
-  'click .videoFeedIcon'(event) {
-    $('.tooltip').hide();
-    return toggleCam(this);
-  },
-
-  'click .toggleUserlistButton'(event) {
-    if (isLandscape() || isLandscapeMobile()) {
-      return toggleUsersList();
-    } else {
-      if ($('.settingsMenu').hasClass('menuOut')) {
-        toggleSettingsMenu();
-      } else {
-        toggleShield();
-      }
-
-      return toggleUserlistMenu();
-    }
-  },
-
-  'click .toggleMenuButton'(event) {
-    if ($('.userlistMenu').hasClass('menuOut')) {
-      toggleUserlistMenu();
-    } else {
-      toggleShield();
-    }
-
-    $('.toggleMenuButton').blur();
-    return toggleSettingsMenu();
-  },
-
-  'click .btn'(event) {
-    return $('.ui-tooltip').hide();
-  },
-});
-
 Template.menu.events({
   'click .slideButton'(event) {
     toggleShield();
@@ -106,8 +54,9 @@ Template.menu.events({
 });
 
 Template.main.rendered = function () {
+  ReactDOM.render(<MainContainer />, document.getElementById('main'));
   ReactDOM.render(<UserListContainer />, document.getElementById('user-contents'));
-  
+
   var appElement = document.getElementById('example');
   Modal.setAppElement(appElement);
   ReactDOM.render(<App/>, appElement);
@@ -181,23 +130,6 @@ Template.main.rendered = function () {
     }
   }
 };
-
-Template.main.events({
-  'click .shield'(event) {
-    $('.tooltip').hide();
-    toggleShield();
-    return closeMenus();
-  },
-
-  'click .settingsIcon'(event) {
-    return $('#settingsModal').foundation('reveal', 'open');
-  },
-
-  'click .signOutIcon'(event) {
-    $('.signOutIcon').blur();
-    return $('#logoutModal').foundation('reveal', 'open');
-  },
-});
 
 Template.main.gestures({
   'panstart #container'(event, template) {
