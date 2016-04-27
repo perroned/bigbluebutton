@@ -41,18 +41,12 @@ function getFontSizeName() {
 }
 
 function increaseFontSize() {
-  let fs = this.state.currentFontSize;
-  if (++fs >= fontSizeEnum.EXTRA_LARGE) {
-    fs = fontSizeEnum.EXTRA_LARGE;
-  }
+  const fs = Math.min(this.state.currentFontSize + 1, fontSizeEnum.EXTRA_LARGE);
   storeFontSize.call(this, fs);
 };
 
 function decreaseFontSize() {
-  let fs = this.state.currentFontSize;
-  if (--fs <= fontSizeEnum.EXTRA_SMALL) {
-    fs = fontSizeEnum.EXTRA_SMALL;
-  }
+  const fs = Math.max(this.state.currentFontSize - 1, fontSizeEnum.EXTRA_SMALL);
   storeFontSize.call(this, fs);
 };
 
