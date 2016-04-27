@@ -130,13 +130,13 @@ export let Chat = React.createClass({
 
   render() {
     return (
-      <div id="chat" className="component">
+      <div id="chat" className="component mediumFont">
         <div className="chatBodyContainer">
           {this.inPrivateChat() ?
             <PrivateChatToolBar inPrivateChat={this.inPrivateChat} privateChatName={this.data.privateChatName}/>
           : null }
           <div id="chatbody">
-            <ul className="chat" style={this.data.messageFontSize}>
+            <ul className="chat">
               {this.getCombinedMessagesForChat(this.data.chatMessages).map((message) =>
               <ChatMessage key={message._id} message={message} messageFontSize={this.data.messageFontSize}/>
               )}

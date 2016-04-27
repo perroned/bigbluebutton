@@ -85,8 +85,7 @@ export let Header = React.createClass({
         </span>
 
         <div className="rightNavbarSection">
-          <Button onclick={this.handleSettingsButton} id="settingsIcon" btn_class=" settingsIcon navbarButton" i_class="ion-gear-b" rel="tooltip"
-          title="BigBlueButton Settings" />
+          <span id="settingsButtonPlaceHolder"></span>
           <Button onclick={this.handleSignOutButton} id="logout" btn_class=" signOutIcon navbarButton" i_class="ion-log-out" rel="tooltip" title="Logout" />
         </div>
         <Button onClick={this.handleToggleMenuButton} btn_class=" toggleMenuButton navbarButton"
