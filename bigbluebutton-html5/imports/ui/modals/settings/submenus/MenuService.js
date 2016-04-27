@@ -14,8 +14,15 @@ const fontSizeEnum = {
   }
 };
 
-function setFontSize() {
+function applyFontSize() {
   document.getElementsByTagName("html")[0].style.fontSize = fontSizeEnum.properties[this.state.currentFontSize].size;
+}
+
+function storeFontSize(fs) {
+  localStorage.setItem('bbbFontSize', fs);
+  this.setState({currentFontSize: fs}, function() {
+    applyFontSize.call(this)
+  });
 }
 
 function getFontSizeName() {
@@ -27,7 +34,7 @@ function increaseFontSize() {
   if (++fs >= fontSizeEnum.EXTRA_LARGE) {
     fs = fontSizeEnum.EXTRA_LARGE;
   }
-  this.setState({currentFontSize: fs}, function() {setFontSize.call(this)});
+  storeFontSize.call(this, fs);
 };
 
 function decreaseFontSize() {
@@ -35,7 +42,7 @@ function decreaseFontSize() {
   if (--fs <= fontSizeEnum.EXTRA_SMALL) {
     fs = fontSizeEnum.EXTRA_SMALL;
   }
-  this.setState({currentFontSize: fs}, function() {setFontSize.call(this)});
+  storeFontSize.call(this, fs);
 };
 
 export {increaseFontSize, decreaseFontSize, getFontSizeName, fontSizeEnum};
