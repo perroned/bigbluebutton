@@ -18,10 +18,21 @@ function applyFontSize() {
   document.getElementsByTagName("html")[0].style.fontSize = fontSizeEnum.properties[this.state.currentFontSize].size;
 }
 
+function loadFontSize() {
+  const existingFontSize = localStorage.getItem('bbbFontSize');
+  let newFontSize = null;
+  if (existingFontSize && existingFontSize >= fontSizeEnum.EXTRA_SMALL && existingFontSize <= fontSizeEnum.EXTRA_LARGE) {
+    newFontSize = existingFontSize;
+  } else {
+    newFontSize = fontSizeEnum.MEDIUM;
+  }
+  storeFontSize.call(this, newFontSize);
+}
+
 function storeFontSize(fs) {
   localStorage.setItem('bbbFontSize', fs);
   this.setState({currentFontSize: fs}, function() {
-    applyFontSize.call(this)
+    applyFontSize.call(this);
   });
 }
 
