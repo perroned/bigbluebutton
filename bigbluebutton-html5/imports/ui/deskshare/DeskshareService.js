@@ -5,15 +5,15 @@ import {Deskshare} from '../../api/deskshare.js';
 // and display it, or end the call and hide the video
 export function videoIsBroadcasting() {
   const ds = Deskshare.findOne({});
-  if (ds == null || !ds.deskshare.broadcasting) {
+  if (ds == null || !ds.broadcasting) {
     console.log('Deskshare broadcasting has ended');
     presenterDeskshareHasEnded();
     return false;
   }
 
-  if (ds.deskshare.broadcasting) {
+  if (ds.broadcasting) {
     console.log('Deskshare is now broadcasting');
-    if (ds.deskshare.startedBy != getInSession("userId")) {
+    if (ds.startedBy != getInSession("userId")) {
       console.log('deskshare wasn\'t initiated by me');
       presenterDeskshareHasStarted();
       return true;

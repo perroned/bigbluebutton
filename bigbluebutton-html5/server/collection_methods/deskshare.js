@@ -4,12 +4,12 @@ export function handleDeskShareChange(meetingId, deskshareInfo) {
   console.error(`__${meetingId}__deskshareInfo= + ${JSON.stringify(deskshareInfo)}`);
   const presenter = Meteor.Users.findOne({meetingId: meetingId, 'user.presenter':  true}).user.userid;
   Deskshare.upsert({ meetingId: meetingId}, {$set: {
-    'deskshare.broadcasting': deskshareInfo.broadcasting,
-    'deskshare.timestamp': 'now',
-    'deskshare.vw': deskshareInfo.vw,
-    'deskshare.vh': deskshareInfo.vh,
-    'deskshare.voice_bridge': deskshareInfo.voice_bridge,
-    'deskshare.startedBy': presenter,
+    'broadcasting': deskshareInfo.broadcasting,
+    'timestamp': 'now',
+    'vw': deskshareInfo.vw,
+    'vh': deskshareInfo.vh,
+    'voice_bridge': deskshareInfo.voice_bridge,
+    'startedBy': presenter,
   }});
 }
 
