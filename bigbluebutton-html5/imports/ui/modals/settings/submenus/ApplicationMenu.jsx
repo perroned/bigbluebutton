@@ -27,8 +27,8 @@ export default class ApplicationMenu extends BaseMenu {
           <div style={{float: 'left', width: '25%', textAlign: 'left'}}>Font size</div>
           <div style={{float: 'left', width: '50%', textAlign: 'center'}}>{getFontSizeName.call(this)}</div>
           <div style={{float: 'left', width: '25%', textAlign: 'right'}}>
-            <button style={{width:'20px', padding: '0px', margin: '0px'}} onClick={increaseFontSize.bind(this)}>+</button>
-            <button style={{width:'20px', padding: '0px', margin: '0px'}} onClick={decreaseFontSize.bind(this)}>-</button>
+            <button className="fontSizeButton" onClick={increaseFontSize.bind(this)}>+</button>
+            <button className="fontSizeButton" onClick={decreaseFontSize.bind(this)}>-</button>
           </div>
         </div>
       </div>
