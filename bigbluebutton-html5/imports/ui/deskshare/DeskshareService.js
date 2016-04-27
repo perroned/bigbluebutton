@@ -13,7 +13,7 @@ export function videoIsBroadcasting() {
 
   if (ds.deskshare.broadcasting) {
     console.log('Deskshare is now broadcasting');
-    if (ds.deskshare.startedBy != BBB.getMyUserId()) {
+    if (ds.deskshare.startedBy != getInSession("userId")) {
       console.log('deskshare wasn\'t initiated by me');
       presenterDeskshareHasStarted();
       return true;
@@ -44,7 +44,7 @@ export function exitVoiceCall(event, afterExitCall) {
     checkToHangupCall = (function(context) {
       // if an attempt to hang up the call is made when the current session is not yet finished, the request has no effect
       // keep track in the session if we haven't tried a hangup
-      if (BBB.getCallStatus() != null and !getInSession("triedHangup")) {
+      if (BBB.getCallStatus() != null && !getInSession("triedHangup")) {
         console.log('Attempting to hangup on WebRTC call');
         if (BBB.amIListenOnlyAudio()) { // notify BBB-apps we are leaving the call call if we are listen only
           Meteor.call('listenOnlyRequestToggle', BBB.getMeetingId(), BBB.getMyUserId(), BBB.getMyAuthToken(), false);
@@ -62,6 +62,7 @@ export function exitVoiceCall(event, afterExitCall) {
     })(this); // automatically run function
     return false;
   };
+}
 
 // join the conference. If listen only send the request to the server
 export function joinVoiceCall(event, options) {
@@ -99,7 +100,7 @@ export function joinVoiceCall(event, options) {
       // Always fail the first time. Retry on failure.
       //
       if (!!navigator.mozGetUserMedia && message.errorcode == 1001) {
-        callIntoConference_verto(extension, conferenceUsername, conferenceIdNumber, function(m) { console.log("CALLBACK: "+JSON.stringify(m)))}, "webcam", options, vertoServerCredentials);
+        callIntoConference_verto(extension, conferenceUsername, conferenceIdNumber, function(m) { console.log("CALLBACK: "+JSON.stringify(m)); }, "webcam", options, vertoServerCredentials);
       }
       //
       // End of hacky method
@@ -125,28 +126,16 @@ export function joinVoiceCall(event, options) {
   }
 }
 
-// @toggleWhiteboardVideo = (display) ->
-//   if display is "whiteboard"
-//     $("//webcam").css("display", "none")
-//     $("//whiteboard-paper").css("display", "block")
-//   else if display is "video"
-//     $("//whiteboard-paper").css("display", "none")
-//     $("//webcam").css("display", "block")
-//     $("//webcam").css("width", "100%")
-//     $("//webcam").css("height", "100%")
-
 // if remote deskshare has been ended disconnect and hide the video stream
 export function presenterDeskshareHasEnded() {
-  // toggleWhiteboardVideo("whiteboard");
-  exitVoiceCall();
-}
+  // exitVoiceCall();
+};
 
 // if remote deskshare has been started connect and display the video stream
 export function presenterDeskshareHasStarted() {
-  voiceBridge = extension = Deskshare.findOne().deskshare.voice_bridge;
-  // toggleWhiteboardVideo("video");
-  joinVoiceCall(this, {
-    watchOnly: true
-    extension: extension
-  });
-}
+  // voiceBridge = extension = Deskshare.findOne().deskshare.voice_bridge;
+  // joinVoiceCall(this, {
+  //   watchOnly: true
+  //   extension: extension
+  // });
+};

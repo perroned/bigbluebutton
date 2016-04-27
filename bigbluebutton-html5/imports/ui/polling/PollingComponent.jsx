@@ -14,6 +14,6 @@ export default class PollingComponent extends React.Component {
             );
           })}
       </div>
-    )
+    );
   }
 };
