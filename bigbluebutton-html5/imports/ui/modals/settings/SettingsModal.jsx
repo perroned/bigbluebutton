@@ -18,11 +18,11 @@ export default class SettingsModal extends BaseModal {
 
   componentWillMount() {
     this.setState({activeSubmenu: 0});
-    this.submenus.push({className: 'AudioMenu', props: { title: 'Audio', prependIconName: 'ion-', icon: 'ios-mic-outline'}});
-    this.submenus.push({className: 'VideoMenu', props: { title: 'Video', prependIconName: 'ion-', icon: 'ios-videocam-outline'}});
-    this.submenus.push({className: 'ApplicationMenu', props: { title: 'App', prependIconName: 'ion-', icon: 'ios-folder-outline'}});
-    this.submenus.push({className: 'UsersMenu', props: { title: 'Participants', prependIconName: 'ion-', icon: 'person'}});
-    this.submenus.push({className: 'SessionMenu', props: { title: 'Session', prependIconName: 'ion-', icon: 'android-exit'}});
+    this.submenus.push({className: AudioMenu, props: { title: 'Audio', prependIconName: 'ion-', icon: 'ios-mic-outline'}});
+    this.submenus.push({className: VideoMenu, props: { title: 'Video', prependIconName: 'ion-', icon: 'ios-videocam-outline'}});
+    this.submenus.push({className: ApplicationMenu, props: { title: 'App', prependIconName: 'ion-', icon: 'ios-folder-outline'}});
+    this.submenus.push({className: UsersMenu, props: { title: 'Participants', prependIconName: 'ion-', icon: 'person'}});
+    this.submenus.push({className: SessionMenu, props: { title: 'Session', prependIconName: 'ion-', icon: 'android-exit'}});
   }
 
   createMenu() {
@@ -34,23 +34,8 @@ export default class SettingsModal extends BaseModal {
       icon: this.submenus[curr].props.icon,
     };
 
-    switch (this.submenus[curr].className) {
-      case 'AudioMenu': {
-        return <AudioMenu {...props}/>;
-      }
-      case 'VideoMenu': {
-        return <VideoMenu {...props}/>;
-      }
-      case 'ApplicationMenu': {
-        return <ApplicationMenu {...props}/>;
-      }
-      case 'UsersMenu': {
-        return <UsersMenu {...props}/>;
-      }
-      case 'SessionMenu': {
-        return <SessionMenu {...props}/>;
-      }
-    }
+    const Submenu = this.submenus[curr].className;
+    return <Submenu {...props}/>;
   }
 
   openModal() {
