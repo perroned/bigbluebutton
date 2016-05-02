@@ -19,7 +19,6 @@ duongthienduc:meteor-winston
 mizzao:timesync
 agnito:raphael
 clinical:nightwatch
-sanjo:jasmine
 pagebakers:ionicons
 ewall:foundation
 maibaum:foundation-icons
@@ -33,3 +32,4 @@ ecmascript
 react-meteor-data
 standard-minifier-css
 standard-minifier-js
+nathantreid:css-modules

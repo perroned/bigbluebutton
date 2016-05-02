@@ -150,13 +150,14 @@ Meteor.startup(() => {
 
     // LOG in the meteor console
     if (eventName, indexOf.call(notLoggedEventTypes, eventName) < 0) {
-      // Uncomment for DEVELOPMENT purposes only
-      // Otherwise dynamic shapes' updates will slow down significantly
-      /*
-      Meteor.log.info(`redis incoming message  ${eventName}  `, {
-        message: json,
-      });
-      */
+
+      // For DEVELOPMENT purposes only
+      // Dynamic shapes' updates will slow down significantly
+      if(Meteor.settings.public.mode == 'development') {
+        Meteor.log.info(`redis incoming message  ${eventName}  `, {
+          message: json,
+        });
+      }
     }
   };
 
