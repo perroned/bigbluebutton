@@ -17,12 +17,17 @@ export default class SettingsModal extends BaseModal {
   }
 
   componentWillMount() {
-    this.setState({activeSubmenu: 0});
-    this.submenus.push({className: AudioMenu, props: { title: 'Audio', prependIconName: 'ion-', icon: 'ios-mic-outline'}});
-    this.submenus.push({className: VideoMenu, props: { title: 'Video', prependIconName: 'ion-', icon: 'ios-videocam-outline'}});
-    this.submenus.push({className: ApplicationMenu, props: { title: 'App', prependIconName: 'ion-', icon: 'ios-folder-outline'}});
-    this.submenus.push({className: UsersMenu, props: { title: 'Participants', prependIconName: 'ion-', icon: 'person'}});
-    this.submenus.push({className: SessionMenu, props: { title: 'Session', prependIconName: 'ion-', icon: 'android-exit'}});
+    this.setState({ activeSubmenu: 0 });
+    this.submenus.push({ className: AudioMenu,
+      props: { title: 'Audio', prependIconName: 'ion-', icon: 'ios-mic-outline', }, });
+    this.submenus.push({ className: VideoMenu,
+      props: { title: 'Video', prependIconName: 'ion-', icon: 'ios-videocam-outline', }, });
+    this.submenus.push({ className: ApplicationMenu,
+      props: { title: 'App', prependIconName: 'ion-', icon: 'ios-folder-outline', }, });
+    this.submenus.push({ className: UsersMenu,
+      props: { title: 'Participants', prependIconName: 'ion-', icon: 'person', }, });
+    this.submenus.push({ className: SessionMenu,
+      props: { title: 'Session', prependIconName: 'ion-', icon: 'android-exit', }, });
   }
 
   createMenu() {
@@ -55,18 +60,20 @@ export default class SettingsModal extends BaseModal {
   }
 
   clickSubmenu(i) {
-    this.setState({activeSubmenu: i});
+    this.setState({ activeSubmenu: i });
   }
 
   getContent() {
-    return(
+    return (
       <div>
         <div className="settingsMenuLeft">
-          <ul style={{listStyleType: 'none'}}>
+          <ul style={{ listStyleType: 'none' }}>
             {this.submenus.map((value, index) => (
               <li key={index} onClick={this.clickSubmenu.bind(this, index)}
-                className={classNames('settingsSubmenuItem', {'settingsSubmenuItemActive': index == this.state.activeSubmenu})}>
-                <Icon key={index} prependIconName={value.props.prependIconName} iconName={value.props.icon} title={value.props.title}/>
+                className={classNames('settingsSubmenuItem',
+                  { settingsSubmenuItemActive: index == this.state.activeSubmenu })}>
+                <Icon key={index} prependIconName={value.props.prependIconName}
+                  iconName={value.props.icon} title={value.props.title}/>
                 <span> - {value.props.title}</span>
               </li>
             ))}

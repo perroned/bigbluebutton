@@ -5,16 +5,16 @@ import {Button} from '/imports/ui/Button.jsx';
 
 const customStyles = {
   overlay: {
-    zIndex: 1000
+    zIndex: 1000,
   },
-  content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)'
-  }
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+  },
 };
 
 export default class BaseModal extends React.Component {
@@ -22,7 +22,7 @@ export default class BaseModal extends React.Component {
     super(props);
     this.state = {
       modalIsOpen: false,
-      title: props.title || "title",
+      title: props.title || 'title',
       content: <div>hello</div>,
     };
     this.openModal = this.openModal.bind(this);
@@ -34,15 +34,15 @@ export default class BaseModal extends React.Component {
   }
 
   setTitle(title) {
-    this.setState({title: title});
+    this.setState({ title: title });
   }
 
   openModal() {
-    this.setState({modalIsOpen: true});
+    this.setState({ modalIsOpen: true });
   }
 
   closeModal() {
-    this.setState({modalIsOpen: false});
+    this.setState({ modalIsOpen: false });
   }
 
   afterOpenModal() {
@@ -54,7 +54,7 @@ export default class BaseModal extends React.Component {
   handleModalCloseRequest() {
     // opportunity to validate something and keep the modal open even if it
     // requested to be closed
-    this.setState({modalIsOpen: false});
+    this.setState({ modalIsOpen: false });
   }
 
   handleSaveClicked(e) {
@@ -62,7 +62,7 @@ export default class BaseModal extends React.Component {
   }
 
   getContent() {
-    return(<div>parent content</div>);
+    return (<div>parent content</div>);
   }
 
   render() {

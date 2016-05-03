@@ -16,7 +16,9 @@ export default class AudioMenu extends BaseMenu {
     return (
       <div>
         <p>inside audio menu</p>
-        <button onClick={joinVoiceCall.bind(this, {useSIPAudio, isListenOnly})}>join audio</button>
+        <button onClick={joinVoiceCall.bind(this, { useSIPAudio, isListenOnly })}>
+          join audio
+        </button>
       </div>
     );
   }

@@ -9,7 +9,7 @@ export default class BaseMenu extends React.Component {
   }
 
   getContent() {
-    return(<div>parent content</div>);
+    return (<div>parent content</div>);
   }
 
   render() {
