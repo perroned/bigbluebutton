@@ -13,6 +13,7 @@ class PollingContainer extends React.Component {
   }
 }
 
-export default createContainer(() => ({
-  return PollingService.mapPolls();
-}), PollingContainer);
+export default createContainer(() => {
+  const data = PollingService.mapPolls();
+  return data;
+}, PollingContainer);
