@@ -13,8 +13,8 @@ class DeskshareContainer extends React.Component {
   }
 }
 
-export default createContainer(() => {
+export default createContainer(() => ({
   return {
     videoIsBroadcasting: videoIsBroadcasting(),
   };
-}, DeskshareContainer);
+}), DeskshareContainer);
