@@ -3,23 +3,23 @@ import React from 'react';
 
 const customStyles = {
   overlay: {
-    zIndex: 1000
+    zIndex: 1000,
   },
-  content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)'
-  }
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+  },
 };
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalIsOpen: false
+      modalIsOpen: false,
     };
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
@@ -29,11 +29,11 @@ export default class App extends React.Component {
   }
 
   openModal() {
-    this.setState({modalIsOpen: true});
+    this.setState({ modalIsOpen: true });
   }
 
   closeModal() {
-    this.setState({modalIsOpen: false});
+    this.setState({ modalIsOpen: false });
   }
 
   afterOpenModal() {
@@ -45,7 +45,7 @@ export default class App extends React.Component {
   handleModalCloseRequest() {
     // opportunity to validate something and keep the modal open even if it
     // requested to be closed
-    this.setState({modalIsOpen: false});
+    this.setState({ modalIsOpen: false });
   }
 
   handleSaveClicked(e) {
