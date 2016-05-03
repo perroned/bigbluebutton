@@ -12,8 +12,6 @@ function joinVertoCall(options) {
     extension = Meteor.Meetings.findOne().voiceConf;
   }
 
-  conferenceUsername = "FreeSWITCH User - " + encodeURIComponent(Meteor.Users.findOne({userId: getInSession("userId")}).user.name);
-  conferenceIdNumber = "1009";
   if (!isWebRTCAvailable()) {
     return;
   }
@@ -27,20 +25,29 @@ function joinVertoCall(options) {
     };
 
     let wasCallSuccessful = false;
-    let debuggerCallback = function(message) {
-      console.log('CALLBACK: '+JSON.stringify(message));
+    let debuggerCallback = function (message) {
+      console.log('CALLBACK: ' + JSON.stringify(message));
+
       //
       // Beginning of hacky method to make Firefox media calls succeed.
       // Always fail the first time. Retry on failure.
       //
       if (!!navigator.mozGetUserMedia && message.errorcode == 1001) {
-        callIntoConference_verto(extension, conferenceUsername, conferenceIdNumber, function(m) { console.log("CALLBACK: "+JSON.stringify(m)); }, "webcam", options, vertoServerCredentials);
+        const logCallback = function (m) {
+          console.log('CALLBACK: ' + JSON.stringify(m));
+        };
+
+        callIntoConference_verto(extension, conferenceUsername, conferenceIdNumber, logCallback,
+          'webcam', options, vertoServerCredentials);
       }
+
       //
       // End of hacky method
       //
     };
-    callIntoConference_verto(extension, conferenceUsername, conferenceIdNumber, debuggerCallback, "webcam", options, vertoServerCredentials);
+
+    callIntoConference_verto(extension, conferenceUsername, conferenceIdNumber, debuggerCallback,
+      'webcam', options, vertoServerCredentials);
     return;
   }
 }
