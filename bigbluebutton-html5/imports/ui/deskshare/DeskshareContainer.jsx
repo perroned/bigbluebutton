@@ -6,15 +6,14 @@ import DeskshareComponent from './DeskshareComponent.jsx';
 class DeskshareContainer extends React.Component {
   render() {
     if (this.props.videoIsBroadcasting) {
-      return <DeskshareComponent />
+      return <DeskshareComponent />;
     } else {
       return null;
     }
   }
 }
 
-export default createContainer(() => ({
-  return {
-    videoIsBroadcasting: videoIsBroadcasting(),
-  };
-}), DeskshareContainer);
+export default createContainer(() => {
+  const data = { videoIsBroadcasting: videoIsBroadcasting() };
+  return data;
+}, DeskshareContainer);
