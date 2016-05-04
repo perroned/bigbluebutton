@@ -86,7 +86,6 @@ export let Button = React.createClass({
         <span>{this.props.label}</span>
       : null }
         <span></span>
-      : null }
       {this.props.emoji ?
         <EmojisSVG emoji={ this.props.emoji } size="50"/>
       : null}
