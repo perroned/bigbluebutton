@@ -19,7 +19,7 @@ MainContainer = React.createClass({
   componentDidMount() {
     ReactDOM.render(
       <Button componentClass='span' onClick={this.refs['settingsModal'].openModal} className='btn settingsIcon navbarButton' i_class='icon ion-gear-b' rel='tooltip' title='Settings'>
-        <Icon iconName='icon ion-gear-b' className='icon ion-gear-b'/>
+        <Icon iconName='icon ion-gear-b' className='mediumFont icon ion-gear-b'/>
       </Button>
     , document.getElementById('settingsButtonPlaceHolder'));
   },

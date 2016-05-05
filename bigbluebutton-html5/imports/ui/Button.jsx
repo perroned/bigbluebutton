@@ -58,8 +58,7 @@ export let Button = React.createClass({
       <Component
         {...this.props}
         type={this.props.type || 'button'}
-        role="button"
-        className="smallFont">
+        role="button">
         {this.props.children}
       </Component>
     );

@@ -9,10 +9,10 @@ class FontControl {
 
       properties: {
         1: { size: '12px', name: 'Extra Small' },
-        2: { size: '16px', name: 'Small' },
-        3: { size: '18px', name: 'Medium' },
-        4: { size: '24px', name: 'Large' },
-        5: { size: '26px', name: 'Extra Large' },
+        2: { size: '14px', name: 'Small' },
+        3: { size: '16px', name: 'Medium' },
+        4: { size: '18px', name: 'Large' },
+        5: { size: '20px', name: 'Extra Large' },
       },
     };
   }
