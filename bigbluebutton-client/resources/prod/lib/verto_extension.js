@@ -377,7 +377,7 @@ Verto.prototype.doShare = function (screenConstraints) {
 
   this.share_call = window.vertoHandle.newCall({
     destination_number: this.destination_number,
-    caller_id_name: this.caller_id_name,
+    caller_id_name: this.caller_id_name + "-PRESENTER",
     caller_id_number: this.caller_id_number,
     outgoingBandwidth: "default",
     incomingBandwidth: "default",
