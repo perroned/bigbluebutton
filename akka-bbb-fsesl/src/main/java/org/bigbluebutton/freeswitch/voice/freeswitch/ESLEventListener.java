@@ -103,7 +103,7 @@ public class ESLEventListener implements IEslEventListener {
         // (WebRTC) Deskstop sharing conferences' name is of the form ddddd-DESKSHARE
         // Voice conferences' name is of the form ddddd
         if (confName.endsWith(DESKSHARE_CONFERENCE_NAME_SUFFIX)) {
-            if (!callerId.endsWith("-PRESENTER")) {
+            if (!callerIdName.endsWith("-PRESENTER")) {
               System.out.println("user is not presenter, ignoring leave");
               return;
             }
