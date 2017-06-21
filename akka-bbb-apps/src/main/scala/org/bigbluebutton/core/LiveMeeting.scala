@@ -190,6 +190,10 @@ class LiveMeeting(val mProps: MeetingProperties,
   }
 
   def handleDeskShareStoppedRequest(msg: DeskShareStoppedRequest): Unit = {
+    if (!msg.callerIdName.endsWith("-PRESENTER")) {
+      return
+    }
+
     log.info("handleDeskShareStoppedRequest: dsStarted=" + meetingModel.getDeskShareStarted() +
       " URL:" + meetingModel.getRTMPBroadcastingUrl())
 
